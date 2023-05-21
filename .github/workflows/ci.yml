@@ -17,11 +17,15 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Change directory to RescueHubProject
-        run: cd RescueHubProject
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: | 
+          cd RescueHubProject
+          chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew build
+        run: |
+          cd RescueHubProject
+          ./gradlew build
       - name: Test with Gradle
-        run: ./gradlew test
+        run: |
+          cd RescueHubProject
+          ./gradlew test
