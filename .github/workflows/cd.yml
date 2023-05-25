@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: RescueHubProject/build/libs/*.jar
+          path: RescueHubProject/build/libs
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -45,10 +45,10 @@ jobs:
       uses: actions/download-artifact@v3.0.2
       with:
         name: build
-    - name: Deploy to Azure Web App
+    - name: Azure 'Deploy to Azure'
       id: deploy-to-azure
-      uses: azure/webapps-deploy@v2
+      uses: Azure/webapps-deploy@v2.2.6
       with:
         app-name: 'RescueHubApi'
         publish-profile: ${{ secrets.PUBLISH_PROFILE_SERVER_PROD }}
-
+        package: "build/libs/*.jar"
