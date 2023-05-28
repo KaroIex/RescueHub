@@ -8,5 +8,7 @@ Changelog
 ## 22.05 (K) - wdrożenie na chmure azure, dodanie continous integration i continous deployment
 ## 23.05 (ANG) - dodanie schematu bazy danych
 ## 24.05 (M) - utworzenie mechanizmu logowania i autoryzacji, dodanie hibernate, lombok, spring-starter-security oraz spring-starter-data-jpa, utworzenie testowego endpointu api/empl/authentizated, skonfigurowanie WebSecurity oraz appliaction.properties, dodanie obsługi zmiany hasła dla konta. Konsola h2 dostępna pod adresem: http://localhost:8080/h2-console. Dane logowanie pozostawiamy puste. Kolekcja zapytań REST do utworzonych endpointow udostępniona w postmanie http://ujeb.se/rescuehubrest
+## 25.05 (K) Dodanie swaggera
+## 28.05 (K) Dodanie tokenu jwt 
 
 
