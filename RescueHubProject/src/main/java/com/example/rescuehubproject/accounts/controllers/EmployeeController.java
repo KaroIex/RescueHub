@@ -1,8 +1,8 @@
 package com.example.rescuehubproject.accounts.controllers;
 
 import com.example.rescuehubproject.accounts.entity.User;
-import com.example.rescuehubproject.accounts.services.EmployeeService;
 import com.example.rescuehubproject.accounts.security.UserDetailsImpl;
+import com.example.rescuehubproject.accounts.services.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,4 +24,9 @@ public class EmployeeController {
         return employeeService.getUserInfo(userDetails);
     }
 
+    @GetMapping("/protected")
+    public ResponseEntity<String> getProtectedMessage() {
+        return ResponseEntity.ok("To jest chroniona wiadomość dostępna tylko dla zalogowanych użytkowników.");
+    }
 }
+
