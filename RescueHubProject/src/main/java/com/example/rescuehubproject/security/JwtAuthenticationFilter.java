@@ -1,4 +1,4 @@
-package com.example.rescuehubproject.accounts.security;
+package com.example.rescuehubproject.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

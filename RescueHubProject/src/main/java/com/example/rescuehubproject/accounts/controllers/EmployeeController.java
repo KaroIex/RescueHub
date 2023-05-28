@@ -1,7 +1,7 @@
 package com.example.rescuehubproject.accounts.controllers;
 
 import com.example.rescuehubproject.accounts.entity.User;
-import com.example.rescuehubproject.accounts.security.UserDetailsImpl;
+import com.example.rescuehubproject.security.UserDetailsImpl;
 import com.example.rescuehubproject.accounts.services.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
