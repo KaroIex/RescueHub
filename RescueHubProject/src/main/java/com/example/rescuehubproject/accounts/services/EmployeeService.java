@@ -2,7 +2,7 @@ package com.example.rescuehubproject.accounts.services;
 
 import com.example.rescuehubproject.accounts.entity.User;
 import com.example.rescuehubproject.accounts.repositories.UserRepository;
-import com.example.rescuehubproject.accounts.security.UserDetailsImpl;
+import com.example.rescuehubproject.security.UserDetailsImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

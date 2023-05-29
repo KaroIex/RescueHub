@@ -7,7 +7,7 @@ import com.example.rescuehubproject.accounts.execeptions.UserExistException;
 import com.example.rescuehubproject.accounts.pojo.ChangePass;
 import com.example.rescuehubproject.accounts.repositories.UserRepository;
 import com.example.rescuehubproject.accounts.responses.PasswordChanged;
-import com.example.rescuehubproject.accounts.security.UserDetailsImpl;
+import com.example.rescuehubproject.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;

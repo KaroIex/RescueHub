@@ -1,4 +1,4 @@
-package com.example.rescuehubproject.accounts.security;
+package com.example.rescuehubproject.security;
 
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
