@@ -1,7 +1,7 @@
 package com.example.rescuehubproject.animals.entity;
 
 
-import com.example.rescuehubproject.adoptions.entity.Adoption;
+import com.example.rescuehubproject.adoption.entity.Adoption;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,6 @@ import java.util.Set;
 @Table(name = "ANIMALS")
 public class Animal {
 
-    //napisz mi co tu sie dzieje
-    // -
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_animal", nullable = false)
