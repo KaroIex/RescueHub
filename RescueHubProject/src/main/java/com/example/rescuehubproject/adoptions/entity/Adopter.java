@@ -1,4 +1,4 @@
-package com.example.rescuehubproject.adoptions.entity;
+/*package com.example.rescuehubproject.adoptions.entity;
 
 import com.example.rescuehubproject.accounts.entity.Person;
 
@@ -25,3 +25,4 @@ public class Adopter extends Person { // rozszerza klasę Person
     @OneToMany(mappedBy = "adopter") // relacja jeden-do-wielu z tabelą Adoptions
     private Set<Adoption> adoptions;
 }
+*/

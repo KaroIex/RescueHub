@@ -1,4 +1,4 @@
-package com.example.rescuehubproject.adoptions.entity;
+/*package com.example.rescuehubproject.adoptions.entity;
 
 import com.example.rescuehubproject.accounts.entity.User;
 import com.example.rescuehubproject.animals.entity.Animal;
@@ -37,4 +37,4 @@ public class Adoption {
     @ManyToOne
     @JoinColumn(name = "id_animal", nullable = false) // relacja wiele-do-jednego z tabelą Animals
     private Animal animal;
-}
+}*/
