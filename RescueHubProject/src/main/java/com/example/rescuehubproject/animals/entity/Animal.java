@@ -18,6 +18,8 @@ import java.util.Set;
 @Table(name = "ANIMALS")
 public class Animal {
 
+    //napisz mi co tu sie dzieje
+    // -
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_animal", nullable = false)
