@@ -10,5 +10,6 @@ Changelog
 ## 24.05 (M) - utworzenie mechanizmu logowania i autoryzacji, dodanie hibernate, lombok, spring-starter-security oraz spring-starter-data-jpa, utworzenie testowego endpointu api/empl/authentizated, skonfigurowanie WebSecurity oraz appliaction.properties, dodanie obsługi zmiany hasła dla konta. Konsola h2 dostępna pod adresem: http://localhost:8080/h2-console. Dane logowanie pozostawiamy puste. Kolekcja zapytań REST do utworzonych endpointow udostępniona w postmanie http://ujeb.se/rescuehubrest
 ## 25.05 (K) Dodanie swaggera
 ## 28.05 (K) Dodanie tokenu jwt 
-
+## 29.05 (K) Dodanie encji oraz CRUD dla Animal Species
+## 30.05 (ASZ) CRUD dla Adopter i Adoptions
 
