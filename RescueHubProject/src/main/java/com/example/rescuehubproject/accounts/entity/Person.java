@@ -34,6 +34,12 @@ public class Person {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    public Person(String name, String lastname, String email) {
+        this.name = name;
+        this.lastname = lastname;
+        this.email = email;
+    }
+
     @Override
     public int hashCode() {
         return getClass().hashCode();

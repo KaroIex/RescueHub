@@ -12,4 +12,6 @@ Changelog
 ## 28.05 (K) Dodanie tokenu jwt 
 ## 29.05 (K) Dodanie encji oraz CRUD dla Animal Species
 ## 30.05 (ASZ) CRUD dla Adopter i Adoptions
+## 30.05 (M) Dodanie ról i uprawnien, rekonifuracja spirng security, utworzenie 3 endpoitow do dodania uzyztkownikowi roli, wyswietlenia wszystkich uzytkownikow oraz usuniecia uzytkownika wraz z jego uprawnieniami, dodanie kolekcji requestow w postmanie do przetestowania endpointow
+
 
