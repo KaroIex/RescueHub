@@ -1,32 +1,28 @@
 package com.example.rescuehubproject.adopters.entities;
 
+import com.example.rescuehubproject.accounts.entity.Person;
+
+
+import com.example.rescuehubproject.adoption.entity.Adoption;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.Set;
 
 @Getter
 @Setter
 @ToString
 @Entity
 @Table(name = "ADOPTERS")
-public class Adopter {
+public class Adopter extends Person { // rozszerza klasę Person
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @NotEmpty(message = "phone required")
+    @Column(name = "phone", nullable = false)
+    private String phone;
 
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
-    @Column(name = "email", nullable = false)
-    private String email;
-
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
-
+    @OneToMany(mappedBy = "adopter") // relacja jeden-do-wielu z tabelą Adoptions
+    private Set<Adoption> adoptions;
 }

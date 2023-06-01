@@ -1,5 +1,6 @@
 package com.example.rescuehubproject.adoption.entity;
 
+import com.example.rescuehubproject.accounts.entity.User;
 import com.example.rescuehubproject.adopters.entities.Adopter;
 import com.example.rescuehubproject.animals.entity.Animal;
 import jakarta.persistence.*;
@@ -16,18 +17,21 @@ public class Adoption {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id_adoption", nullable = false)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "adopter_id", nullable = false)
-    private Adopter adopter;
-
-    @ManyToOne
-    @JoinColumn(name = "animal_id", nullable = false)
-    private Animal animal;
 
     @Column(name = "adoption_date", nullable = false)
     private LocalDate adoptionDate;
 
+    @ManyToOne
+    @JoinColumn(name = "id_user", nullable = false) // relacja wiele-do-jednego z tabelą Users
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "id_adopter", nullable = false) // relacja wiele-do-jednego z tabelą Adopters
+    private Adopter adopter;
+
+    @ManyToOne
+    @JoinColumn(name = "id_animal", nullable = false) // relacja wiele-do-jednego z tabelą Animals
+    private Animal animal;
 }
