@@ -41,3 +41,4 @@ jobs:
           app-name: RescueHubApp
           slot-name: production
           images: rescuehub.azurecr.io/my-app:${{ github.sha }}
+
