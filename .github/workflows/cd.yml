@@ -38,7 +38,7 @@ jobs:
       - name: Deploy to Azure App Service
       - uses: azure/webapps-deploy@v2
         with:
-          app-name: <RescueHubApp>
+          app-name: RescueHubApp
           slot-name: production
           images: rescuehub.azurecr.io/my-app:${{ github.sha }}
 
