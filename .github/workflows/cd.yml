@@ -25,7 +25,7 @@ jobs:
           cd RescueHubProject
           ./gradlew bootJar
       - name: Log in to Azure Container Registry
-      - uses: azure/docker-login@v1
+        uses: azure/docker-login@v1
         with:
           login-server: rescuehub.azurecr.io
           username: ${{ secrets.ACR_USERNAME }}
@@ -36,7 +36,7 @@ jobs:
           docker build -t rescuehub.azurecr.io/my-app:${{ github.sha }} .
           docker push rescuehub.azurecr.io/my-app:${{ github.sha }}
       - name: Deploy to Azure App Service
-      - uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v2
         with:
           app-name: RescueHubApp
           slot-name: production
