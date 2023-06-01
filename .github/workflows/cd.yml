@@ -40,6 +40,6 @@ jobs:
         with:
           app-name: RescueHubApp
           slot-name: production
-          publish-profile: ${{ secrets.PUBLISH_PROFILE_SERVER_PROD}}
+          publish-profile: ${{ secrets.PUBLISH_PROFILE_SERVER_PROD }}
           images: rescuehub.azurecr.io/rescuehub:${{ github.sha }}
 
