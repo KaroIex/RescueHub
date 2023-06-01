@@ -54,4 +54,9 @@ public class AnimalSpeciesController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
 }
