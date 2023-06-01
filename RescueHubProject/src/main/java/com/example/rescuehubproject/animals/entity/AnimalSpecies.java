@@ -21,6 +21,7 @@ public class AnimalSpecies {
     @Column(name = "id_species", nullable = false)
     private Long id;
 
+
     @Column(name = "species_name", nullable = false)
     private String speciesName;
 

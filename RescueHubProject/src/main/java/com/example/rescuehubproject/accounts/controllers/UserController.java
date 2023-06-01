@@ -1,8 +1,8 @@
 package com.example.rescuehubproject.accounts.controllers;
 
 import com.example.rescuehubproject.accounts.entity.User;
-import com.example.rescuehubproject.accounts.pojo.AuthenticationRequest;
-import com.example.rescuehubproject.accounts.pojo.ChangePass;
+import com.example.rescuehubproject.accounts.request.AuthenticationRequest;
+import com.example.rescuehubproject.accounts.request.ChangePass;
 import com.example.rescuehubproject.accounts.responses.AuthenticationResponse;
 import com.example.rescuehubproject.accounts.responses.PasswordChanged;
 import com.example.rescuehubproject.security.JwtUtils;
@@ -26,6 +26,7 @@ public class UserController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
+
     public UserController(UserService userService, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
@@ -53,5 +54,11 @@ public class UserController {
     public ResponseEntity<PasswordChanged> changePassword(@AuthenticationPrincipal UserDetailsImpl userDetails, @Valid @RequestBody ChangePass changePass) {
         return userService.changePassword(userDetails, changePass);
     }
+
+    @GetMapping("/adopter")
+    public String getAccountant(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return "this endpoit is only for adopters";
+    }
+
 
 }

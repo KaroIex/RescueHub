@@ -4,21 +4,26 @@ import com.example.rescuehubproject.accounts.entity.User;
 import com.example.rescuehubproject.accounts.execeptions.PasswordMustBeAtLeast12Chars;
 import com.example.rescuehubproject.accounts.execeptions.PasswordMustBeDifferentException;
 import com.example.rescuehubproject.accounts.execeptions.UserExistException;
-import com.example.rescuehubproject.accounts.pojo.ChangePass;
+import com.example.rescuehubproject.accounts.request.ChangePass;
 import com.example.rescuehubproject.accounts.repositories.UserRepository;
 import com.example.rescuehubproject.accounts.responses.PasswordChanged;
+import com.example.rescuehubproject.accounts.util.Role;
 import com.example.rescuehubproject.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService { // service for user registration
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
+
+    private static final Role ADMINISTRATOR = Role.ROLE_ADMINISTRATOR;
+    private static final Role USER = Role.ROLE_USER;
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder encoder) {
@@ -37,6 +42,17 @@ public class UserService { // service for user registration
             System.out.println("password must be at least 12 chars");
             throw new PasswordMustBeAtLeast12Chars();
         }
+
+        List<User> users = userRepository.findAll();
+
+        Role role;
+        if (users.isEmpty()) {
+            role = ADMINISTRATOR; // if there is no users in db, then first user will be admin
+        } else {
+            role = USER;
+        }
+
+        user.addRole(role);
 
         user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(user);

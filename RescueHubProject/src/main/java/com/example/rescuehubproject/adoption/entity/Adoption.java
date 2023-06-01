@@ -1,19 +1,16 @@
-package com.example.rescuehubproject.adoptions.entity;
+package com.example.rescuehubproject.adoption.entity;
 
 import com.example.rescuehubproject.accounts.entity.User;
+import com.example.rescuehubproject.adopters.entities.Adopter;
 import com.example.rescuehubproject.animals.entity.Animal;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
 @Entity
 @Table(name = "ADOPTIONS")
 public class Adoption {

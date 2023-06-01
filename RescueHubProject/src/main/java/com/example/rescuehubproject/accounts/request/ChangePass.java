@@ -1,4 +1,4 @@
-package com.example.rescuehubproject.accounts.pojo;
+package com.example.rescuehubproject.accounts.request;
 
 import lombok.*;
 

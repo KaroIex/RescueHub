@@ -1,8 +1,9 @@
-package com.example.rescuehubproject.adoptions.entity;
+package com.example.rescuehubproject.adopters.entities;
 
 import com.example.rescuehubproject.accounts.entity.Person;
 
 
+import com.example.rescuehubproject.adoption.entity.Adoption;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;

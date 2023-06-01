@@ -1,7 +1,7 @@
 package com.example.rescuehubproject.animals.entity;
 
 
-import com.example.rescuehubproject.adoptions.entity.Adoption;
+import com.example.rescuehubproject.adoption.entity.Adoption;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
