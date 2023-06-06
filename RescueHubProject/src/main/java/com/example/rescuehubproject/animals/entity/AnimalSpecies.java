@@ -22,7 +22,7 @@ public class AnimalSpecies {
     private Long id;
 
 
-    @Column(name = "species_name", nullable = false)
+    @Column(name = "species_name", nullable = false, unique = true)
     private String speciesName;
 
     @OneToMany(mappedBy = "animalSpecies") // relacja jeden-do-wielu z tabelą Animals

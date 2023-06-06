@@ -1,14 +1,16 @@
 package com.example.rescuehubproject.animals.services;
 
 import com.example.rescuehubproject.animals.dto.AnimalSpeciesDTO;
+import com.example.rescuehubproject.animals.dto.AnimalSpeciesWithIdDTO;
 import com.example.rescuehubproject.animals.entity.AnimalSpecies;
 import com.example.rescuehubproject.animals.repositories.AnimalSpeciesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AnimalSpeciesService {
@@ -16,14 +18,11 @@ public class AnimalSpeciesService {
     @Autowired
     private AnimalSpeciesRepository animalSpeciesRepository;
 
-    //dopisz metody do serwisu
-    //- konwersja z entity na dto i odwrotnie
 
-
-    public List<AnimalSpeciesDTO> findAll() {
-        return animalSpeciesRepository.findAll().stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public Page<AnimalSpeciesWithIdDTO> findAll(Pageable pageable, String filter) {
+        Specification<AnimalSpecies> spec = createSpecification(filter);
+        return animalSpeciesRepository.findAll(spec, pageable)
+                .map(this::convertToDTOWithId);
     }
 
     public Optional<AnimalSpeciesDTO> findById(Long id) {
@@ -32,12 +31,32 @@ public class AnimalSpeciesService {
     }
 
     public AnimalSpeciesDTO save(AnimalSpeciesDTO animalSpeciesDTO) {
-        AnimalSpecies animalSpecies = convertToEntity(animalSpeciesDTO);
-        return convertToDTO(animalSpeciesRepository.save(animalSpecies));
+        AnimalSpecies animalSpecies = new AnimalSpecies();
+        animalSpecies.setSpeciesName(animalSpeciesDTO.getSpeciesName());
+        AnimalSpecies savedAnimalSpecies = animalSpeciesRepository.save(animalSpecies);
+        return convertToDTO(savedAnimalSpecies);
     }
 
     public void deleteById(Long id) {
         animalSpeciesRepository.deleteById(id);
+    }
+
+
+    private AnimalSpeciesWithIdDTO convertToDTOWithId(AnimalSpecies animalSpecies) {
+        AnimalSpeciesWithIdDTO animalSpeciesWithIdDTO = new AnimalSpeciesWithIdDTO();
+        animalSpeciesWithIdDTO.setId(animalSpecies.getId());
+        animalSpeciesWithIdDTO.setSpeciesName(animalSpecies.getSpeciesName());
+        return animalSpeciesWithIdDTO;
+    }
+
+    private Specification<AnimalSpecies> createSpecification(String filter) {
+        return (root, query, criteriaBuilder) -> {
+            if (filter == null || filter.isEmpty()) {
+                return criteriaBuilder.conjunction();
+            }
+
+            return criteriaBuilder.like(criteriaBuilder.lower(root.get("speciesName")), "%" + filter.toLowerCase() + "%");
+        };
     }
 
 
