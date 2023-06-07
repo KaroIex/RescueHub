@@ -12,3 +12,4 @@ public class AnimalSpeciesDTO {
     @NotEmpty(message = "Species name must not be empty")
     private String speciesName;
 }
+
