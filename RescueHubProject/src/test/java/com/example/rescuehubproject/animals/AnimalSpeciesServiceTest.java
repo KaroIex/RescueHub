@@ -71,7 +71,7 @@ public class AnimalSpeciesServiceTest {
     }
 
     @Test
-    void findAll() {
+    void findAll_whenCalled_returnsListOfSpecies() {
         List<AnimalSpecies> speciesList = new ArrayList<>();
         speciesList.add(species1);
         speciesList.add(species2);
@@ -89,7 +89,7 @@ public class AnimalSpeciesServiceTest {
     }
 
     @Test
-    void findById() {
+    void findById_whenCalledWithValidId_returnsMatchingSpecies() {
         given(animalSpeciesRepository.findById(1L)).willReturn(Optional.of(species1));
 
         Optional<AnimalSpeciesDTO> result = animalSpeciesService.findById(1L);
@@ -99,7 +99,16 @@ public class AnimalSpeciesServiceTest {
     }
 
     @Test
-    void save() {
+    void findById_whenCalledWithInvalidId_returnsEmptyOptional() {
+        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.empty());
+
+        Optional<AnimalSpeciesDTO> result = animalSpeciesService.findById(1L);
+
+        assertThat(result.isPresent()).isFalse();
+    }
+
+    @Test
+    void save_whenCalledWithSpeciesDTO_savesAndReturnsSpecies() {
         when(animalSpeciesRepository.save(any())).thenReturn(species1);
 
         AnimalSpeciesDTO result = animalSpeciesService.save(species1DTO);
@@ -108,11 +117,44 @@ public class AnimalSpeciesServiceTest {
     }
 
     @Test
-    void deleteById() {
+    void update_whenCalledWithSpeciesDTO_updatesAndReturnsSpecies() {
+        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.of(species1));
+        when(animalSpeciesRepository.save(any())).thenReturn(species1);
+
+        AnimalSpeciesDTO result = animalSpeciesService.update(1L, species1DTO);
+
+        assertThat(result.getSpeciesName()).isEqualTo(species1DTO.getSpeciesName());
+    }
+
+    @Test
+    void update_whenCalledWithInvalidId_throwsException() {
+        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.empty());
+
+        try {
+            animalSpeciesService.update(1L, species1DTO);
+        } catch (Exception e) {
+            assertThat(e.getMessage()).isEqualTo("Animal species with id 1 not found");
+        }
+    }
+
+    @Test
+    void deleteById_whenCalledWithValidId_deletesSpecies() {
         given(animalSpeciesRepository.findById(1L)).willReturn(Optional.of(species1));
 
         animalSpeciesService.deleteById(1L);
 
         verify(animalSpeciesRepository).deleteById(1L);
     }
+
+    @Test
+    void deleteById_whenCalledWithInvalidId_throwsException() {
+        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.empty());
+
+        try {
+            animalSpeciesService.deleteById(1L);
+        } catch (Exception e) {
+            assertThat(e.getMessage()).isEqualTo("Species with id 1 not found");
+        }
+    }
+
 }

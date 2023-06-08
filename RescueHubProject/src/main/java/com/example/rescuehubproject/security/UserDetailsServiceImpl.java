@@ -1,5 +1,6 @@
 package com.example.rescuehubproject.security;
 
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,4 +23,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .map(UserDetailsImpl::new) // converter from UserInfo to UserDetails
                 .orElseThrow(UserNotFoundException::new); // if user not found
     }
+
 }

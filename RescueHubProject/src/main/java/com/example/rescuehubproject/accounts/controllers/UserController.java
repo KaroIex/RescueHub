@@ -55,10 +55,6 @@ public class UserController {
         return userService.changePassword(userDetails, changePass);
     }
 
-    @GetMapping("/adopter")
-    public String getAccountant(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return "this endpoit is only for adopters";
-    }
 
 
 }
