@@ -8,4 +8,12 @@ import lombok.Setter;
 public class AnimalSpeciesWithIdDTO extends AnimalSpeciesDTO {
 
     private Long id;
+
+    public AnimalSpeciesWithIdDTO(long l, String cat) {
+        super(cat);
+        this.id = l;
+    }
+
+    public AnimalSpeciesWithIdDTO() {
+    }
 }

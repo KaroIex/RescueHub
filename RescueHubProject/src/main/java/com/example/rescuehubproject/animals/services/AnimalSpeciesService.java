@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -36,6 +37,22 @@ public class AnimalSpeciesService {
         AnimalSpecies savedAnimalSpecies = animalSpeciesRepository.save(animalSpecies);
         return convertToDTO(savedAnimalSpecies);
     }
+
+    public AnimalSpeciesDTO update(Long id, AnimalSpeciesDTO updatedAnimalSpeciesDTO) {
+        Optional<AnimalSpecies> existingAnimalSpeciesOptional = animalSpeciesRepository.findById(id);
+
+        if (existingAnimalSpeciesOptional.isPresent()) {
+            AnimalSpecies existingAnimalSpecies = existingAnimalSpeciesOptional.get();
+            existingAnimalSpecies.setSpeciesName(updatedAnimalSpeciesDTO.getSpeciesName());
+
+            AnimalSpecies updatedAnimalSpecies = animalSpeciesRepository.save(existingAnimalSpecies);
+            return convertToDTO(updatedAnimalSpecies);
+        } else {
+            // Throw an exception or return null if the animal species is not found
+            throw new NoSuchElementException("Animal species with id " + id + " not found");
+        }
+    }
+
 
     public void deleteById(Long id) {
         animalSpeciesRepository.deleteById(id);

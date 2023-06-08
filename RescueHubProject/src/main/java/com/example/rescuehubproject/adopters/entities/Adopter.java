@@ -3,6 +3,7 @@ package com.example.rescuehubproject.adopters.entities;
 import com.example.rescuehubproject.accounts.entity.Person;
 
 
+import com.example.rescuehubproject.accounts.entity.User;
 import com.example.rescuehubproject.adoption.entity.Adoption;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -17,10 +18,10 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "ADOPTERS")
-public class Adopter extends Person { // rozszerza klasę Person
+public class Adopter extends User { // rozszerza klasę Person
 
-    @NotEmpty(message = "phone required")
-    @Column(name = "phone", nullable = false)
+
+    @Column(name = "phone")
     private String phone;
 
     @OneToMany(mappedBy = "adopter") // relacja jeden-do-wielu z tabelą Adoptions
