@@ -11,4 +11,15 @@ public class AnimalSpeciesDTO {
 
     @NotEmpty(message = "Species name must not be empty")
     private String speciesName;
+
+    public AnimalSpeciesDTO(String speciesName) {
+        this.speciesName = speciesName;
+    }
+
+    public AnimalSpeciesDTO() {
+
+    }
+
+
 }
+

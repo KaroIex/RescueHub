@@ -15,4 +15,5 @@ Changelog
 ## 30.05 (M) Dodanie ról i uprawnien, rekonifuracja spirng security, utworzenie 3 endpoitow do dodania uzyztkownikowi roli, wyswietlenia wszystkich uzytkownikow oraz usuniecia uzytkownika wraz z jego uprawnieniami, dodanie kolekcji requestow w postmanie do przetestowania endpointow
 ## 30.05 (ANG) CRUD dla Animals
 ## 31.05 (M) Utworzenie i konfiguracja pliku Dockerfile do tworzenia obrazu konternera, utworzenie i przetestowanie obrazu. Konfiguracja przekierowania katalogu glownego do swaggera.
+## 08.06 (K) Utworzenie srodowiska testowego, testy dla animalspeciescontroller i animalspeciesservice, dodanie adnotacji dokumentacyjncyh do swaggera, poprawa encji
 
