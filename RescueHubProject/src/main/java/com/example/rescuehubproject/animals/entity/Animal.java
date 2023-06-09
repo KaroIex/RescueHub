@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -32,10 +33,27 @@ public class Animal {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "id_species", nullable = false) // relacja wiele-do-jednego z tabelą AnimalSpecies
     private AnimalSpecies animalSpecies;
 
-    @OneToMany(mappedBy = "animal") // relacja jeden-do-wielu z tabelą Adoptions
+    @OneToMany(mappedBy = "animal", cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH} ) // relacja jeden-do-wielu z tabelą Adoptions
     private Set<Adoption> adoptions;
+
+    public void addAdoption(Adoption adoption){
+        if(adoptions.isEmpty()){
+            adoptions = new HashSet<>();
+        }
+        adoptions.add(adoption);
+        adoption.setAnimal(this);
+    }
+
+    public void removeAdoption(Adoption adoption){
+        if(adoptions.isEmpty())
+            return;
+        else {
+            adoption.setAnimal(null);
+            adoptions.remove(adoption);
+        }
+    }
 }

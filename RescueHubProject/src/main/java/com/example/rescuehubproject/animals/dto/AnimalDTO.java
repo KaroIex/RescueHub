@@ -14,7 +14,20 @@ public class AnimalDTO {
     @NotEmpty(message = "Age must not be empty")
     private Integer age;
 
-    @NotEmpty(message = "Species name must not be empty")
-    private String speciesName;
+    @NotEmpty(message = "Species id must not be empty")
+    private String animalSpecies;
+
+    @NotEmpty(message = "Description id must not be empty")
+    private String description;
+
+    public AnimalDTO(String name, Integer age, String animalSpecies, String description) {
+        this.name = name;
+        this.age = age;
+        this.animalSpecies = animalSpecies;
+        this.description = description;
+    }
+
+    public AnimalDTO() {
+    }
 
 }
