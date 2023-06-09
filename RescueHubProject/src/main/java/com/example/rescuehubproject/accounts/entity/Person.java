@@ -14,7 +14,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@MappedSuperclass // oznacza klasę, której atrybuty można odziedziczyć
+@Entity
 public class Person {
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
