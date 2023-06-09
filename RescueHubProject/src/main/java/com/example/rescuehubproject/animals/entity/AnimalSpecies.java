@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -25,6 +27,20 @@ public class AnimalSpecies {
     @Column(name = "species_name", nullable = false, unique = true)
     private String speciesName;
 
-    @OneToMany(mappedBy = "animalSpecies") // relacja jeden-do-wielu z tabelą Animals
-    private Set<Animal> animals;
+    @OneToMany(mappedBy = "animalSpecies", cascade = CascadeType.ALL) // relacja jeden-do-wielu z tabelą Animals
+    private List<Animal> animals;
+
+    public void addAnimal(Animal animal){
+        if(animals.isEmpty())
+            animals = new ArrayList<>();
+        animals.add(animal);
+    }
+
+    public void removeAnimal(Animal animal){
+        if(animals.isEmpty())
+            return;
+        else {
+            animals.remove(animal);
+        }
+    }
 }

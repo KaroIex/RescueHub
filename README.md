@@ -17,5 +17,6 @@ Changelog
 ## 31.05 (M) Utworzenie i konfiguracja pliku Dockerfile do tworzenia obrazu konternera, utworzenie i przetestowanie obrazu. Konfiguracja przekierowania katalogu glownego do swaggera.
 ## 08.06 (K) Utworzenie środowiska testowego, testy dla animalspeciescontroller i animalspeciesservice, dodanie adnotacji dokumentacyjncyh do swaggera, poprawa encji
 ## 09.06 (K) Refaktor adoptera, dokumentacja
+## 09.06 (ANG) Poprawa i aktualizacja CRUD dla Animals, dodanie adnotacji dokumentacyjncyh do swaggera dla metody update()
 
 

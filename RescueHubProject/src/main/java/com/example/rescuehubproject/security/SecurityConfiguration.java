@@ -86,6 +86,14 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/api/animalspecies/{id}").hasRole(ADMIN)
                         //*****ANIMAL SPECIES*****\\
 
+                        //*****ANIMAL *****\\
+                        .requestMatchers(HttpMethod.GET, "/api/animalspecies/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/animalspecies").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/animalspecies").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.PUT, "/api/animalspecies/{id}").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.DELETE, "/api/animalspecies/{id}").hasRole(ADMIN)
+                        //*****ANIMAL *****\\ 
+
                         .anyRequest().permitAll() // any other request for test purpose
                 )
                 .userDetailsService(userDetailsService)
