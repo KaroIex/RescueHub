@@ -39,8 +39,6 @@ public class AnimalSpeciesServiceTest {
     @Mock
     private AnimalSpeciesRepository animalSpeciesRepository;
 
-
-
     private AnimalSpecies species1;
     private AnimalSpecies species2;
     private AnimalSpeciesDTO species1DTO;

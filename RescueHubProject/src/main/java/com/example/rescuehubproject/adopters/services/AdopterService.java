@@ -1,57 +1,62 @@
 package com.example.rescuehubproject.adopters.services;
 
-import com.example.rescuehubproject.adopters.dto.AdopterDTO;
+import com.example.rescuehubproject.accounts.entity.User;
+import com.example.rescuehubproject.accounts.util.Role;
+import com.example.rescuehubproject.adopters.dto.GetAdopterDTO;
+import com.example.rescuehubproject.adopters.dto.GetAdopterByIdDTO;
+import com.example.rescuehubproject.adopters.dto.UpdateAdopterDTO;
 import com.example.rescuehubproject.adopters.entities.Adopter;
 import com.example.rescuehubproject.adopters.repositories.AdopterRepository;
-import org.springframework.beans.BeanUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AdopterService {
 
-    private final AdopterRepository adopterRepository;
+    @Autowired
+    private AdopterRepository adopterRepository;
 
     @Autowired
-    public AdopterService(AdopterRepository adopterRepository) {
-        this.adopterRepository = adopterRepository;
+    private ModelMapper modelMapper;
+
+    public Page<GetAdopterDTO> findAll(Pageable pageable, String filter) {
+        // Implement your filtering logic and retrieve adopters accordingly.
+        Page<User> users = adopterRepository.findAll(pageable);
+        return users.map(user -> modelMapper.map(user, GetAdopterDTO.class));
     }
 
-    public List<AdopterDTO> findAll() {
-        List<Adopter> adopters = adopterRepository.findAll();
-        return adopters.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public GetAdopterByIdDTO findById(Long id) {
+        Optional<User> userOptional = adopterRepository.findById(id);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (user.getRoles().contains(Role.ROLE_ADOPTER)) {
+                return modelMapper.map(user, GetAdopterByIdDTO.class);
+            }
+        }
+        return null;
     }
 
-    public Optional<AdopterDTO> findById(Long id) {
-        Optional<Adopter> adopter = adopterRepository.findById(id);
-        return adopter.map(this::convertToDTO);
-    }
+    public Adopter updateAdopter(Long id, UpdateAdopterDTO updateAdopterDTO) {
+        Optional<User> userOptional = adopterRepository.findById(id);
 
-    public AdopterDTO save(AdopterDTO adopterDTO) {
-        Adopter adopter = convertToEntity(adopterDTO);
-        Adopter savedAdopter = adopterRepository.save(adopter);
-        return convertToDTO(savedAdopter);
-    }
-
-    public void deleteById(Long id) {
-        adopterRepository.deleteById(id);
-    }
-
-    private AdopterDTO convertToDTO(Adopter adopter) {
-        AdopterDTO adopterDTO = new AdopterDTO();
-        BeanUtils.copyProperties(adopter, adopterDTO);
-        return adopterDTO;
-    }
-
-    private Adopter convertToEntity(AdopterDTO adopterDTO) {
-        Adopter adopter = new Adopter();
-        BeanUtils.copyProperties(adopterDTO, adopter);
-        return adopter;
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (user.getRoles().contains(Role.ROLE_ADOPTER)) {
+                Adopter adopter = (Adopter) user;
+                adopter.setName(updateAdopterDTO.getName());
+                adopter.setLastname(updateAdopterDTO.getLastname());
+                adopter.setEmail(updateAdopterDTO.getEmail());
+                adopter.setPhone(updateAdopterDTO.getPhone());
+                adopterRepository.save(adopter);
+                return adopter;
+            }
+        }
+        return null;
     }
 }
