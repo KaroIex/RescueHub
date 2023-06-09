@@ -1,22 +1,15 @@
 package com.example.rescuehubproject.adopters.dto;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
-public class AdopterDTO {
+@Getter
+@Setter
+public class GetAdopterDTO {
 
-
-    @NotEmpty(message = "First name must not be empty")
-    private String firstName;
-
-    @NotEmpty(message = "Last name must not be empty")
-    private String lastName;
-
-    @NotEmpty(message = "Email must not be empty")
-    private String email;
-
-    @NotEmpty(message = "Phone number must not be empty")
-    private String phoneNumber;
+    private Long id;
+    private String name;
 
 }

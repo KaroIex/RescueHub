@@ -91,7 +91,6 @@ public class AnimalSpeciesControllerTest {
     private UserController userController;
 
 
-
     private String setUpAdmin(){
         User admin = new User();
         admin.setLastname("admin");
@@ -108,7 +107,6 @@ public class AnimalSpeciesControllerTest {
         var jwt = userController.authenticateUser(authenticationRequest);
         return String.valueOf(jwt);
     }
-    
 
     @Test
     @DirtiesContext
@@ -214,7 +212,6 @@ public class AnimalSpeciesControllerTest {
     @Test
     @DirtiesContext
     void findAll_whenUnauthorizedUser_returnsOK() throws Exception {
-        // given a pageable with animal species data
         int page = 0;
         int size = 10;
         String sortBy = "speciesName";
