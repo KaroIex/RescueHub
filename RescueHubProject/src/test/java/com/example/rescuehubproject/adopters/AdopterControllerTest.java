@@ -154,4 +154,14 @@ public class AdopterControllerTest {
                         .param("filter", filter))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void getAllAdopters_ReturnsInternalServerError_WhenExceptionIsThrown() {
+        when(adopterService.findAll(any(Pageable.class), anyString())).thenThrow(new RuntimeException());
+
+        ResponseEntity<List<GetAdopterDTO>> response = adopterController.getAllAdopters(0, 10, "name", "ASC", "");
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals(null, response.getBody());
+    }
 }
