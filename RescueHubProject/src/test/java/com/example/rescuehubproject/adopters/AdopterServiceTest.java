@@ -165,4 +165,22 @@ public class AdopterServiceTest {
         verify(adopterRepository, times(1)).findById(id);
         verifyNoInteractions(modelMapper);
     }
+
+    @Test
+    void updateAdopter_ReturnsNull_WhenAdopterNotFound() {
+        // Prepare test data
+        Long id = 1L;
+        UpdateAdopterDTO updateAdopterDTO = new UpdateAdopterDTO();
+
+        // Configure mock repository to return an empty optional
+        when(adopterRepository.findById(id)).thenReturn(Optional.empty());
+
+        // Perform the service method
+        Adopter result = adopterService.updateAdopter(id, updateAdopterDTO);
+
+        // Verify the result is null
+        assertNull(result);
+        verify(adopterRepository, times(1)).findById(id);
+        verifyNoMoreInteractions(adopterRepository);
+    }
 }
