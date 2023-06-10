@@ -74,4 +74,27 @@ public class AdopterServiceTest {
         verify(adopterRepository, times(1)).findAll(pageable);
         verify(modelMapper, times(users.size())).map(any(User.class), eq(GetAdopterDTO.class));
     }
+
+    @Test
+    public void testFindById() {
+        // Prepare test data
+        Long id = 1L;
+        User user = createUser("John", "Doe");
+        user.addRole(Role.ROLE_ADOPTER);
+        Optional<User> userOptional = Optional.of(user);
+
+        // Configure mock repository
+        when(adopterRepository.findById(id)).thenReturn(userOptional);
+
+        // Configure mock model mapper
+        when(modelMapper.map(user, GetAdopterByIdDTO.class)).thenReturn(new GetAdopterByIdDTO());
+
+        // Perform the service method
+        GetAdopterByIdDTO result = adopterService.findById(id);
+
+        // Verify the results
+        assertEquals(userOptional.isPresent(), result != null);
+        verify(adopterRepository, times(1)).findById(id);
+        verify(modelMapper, times(userOptional.isPresent() ? 1 : 0)).map(user, GetAdopterByIdDTO.class);
+    }
 }
