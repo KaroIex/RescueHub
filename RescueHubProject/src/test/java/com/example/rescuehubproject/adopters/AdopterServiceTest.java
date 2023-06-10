@@ -97,4 +97,38 @@ public class AdopterServiceTest {
         verify(adopterRepository, times(1)).findById(id);
         verify(modelMapper, times(userOptional.isPresent() ? 1 : 0)).map(user, GetAdopterByIdDTO.class);
     }
+
+    @Test
+    public void testUpdateAdopter() {
+        // Prepare test data
+        Long id = 1L;
+        UpdateAdopterDTO updateAdopterDTO = new UpdateAdopterDTO();
+        updateAdopterDTO.setName("John");
+        updateAdopterDTO.setLastname("Doe");
+        updateAdopterDTO.setEmail("john.doe@example.com");
+        updateAdopterDTO.setPhone("123456789");
+
+        Adopter adopter = new Adopter();
+        adopter.setId(id);
+        adopter.addRole(Role.ROLE_ADOPTER);
+        adopter.setName("John");
+
+        Optional<User> userOptional = Optional.of(adopter);
+
+        // Configure mock repository
+        when(adopterRepository.findById(id)).thenReturn(userOptional);
+        when(adopterRepository.save(adopter)).thenReturn(adopter);
+
+        // Perform the service method
+        Adopter result = adopterService.updateAdopter(id, updateAdopterDTO);
+
+        // Verify the results
+        assertEquals(userOptional.isPresent(), result != null);
+        assertEquals(updateAdopterDTO.getName(), adopter.getName());
+        assertEquals(updateAdopterDTO.getLastname(), adopter.getLastname());
+        assertEquals(updateAdopterDTO.getEmail(), adopter.getEmail());
+        //assertEquals(updateAdopterDTO.getPhone(), user.getPhone());
+        verify(adopterRepository, times(1)).findById(id);
+        verify(adopterRepository, times(1)).save(adopter);
+    }
 }
