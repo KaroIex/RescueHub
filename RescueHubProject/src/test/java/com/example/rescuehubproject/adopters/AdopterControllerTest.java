@@ -164,4 +164,14 @@ public class AdopterControllerTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertEquals(null, response.getBody());
     }
+
+    @Test
+    void getAdopterById_ReturnsAdopter_WhenFound() {
+        when(adopterService.findById(anyLong())).thenReturn(adopterByIdDTO);
+
+        ResponseEntity<GetAdopterByIdDTO> response = adopterController.getAdopterById(1L);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(adopterByIdDTO, response.getBody());
+    }
 }
