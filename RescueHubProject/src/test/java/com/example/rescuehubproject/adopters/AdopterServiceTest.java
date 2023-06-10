@@ -131,4 +131,21 @@ public class AdopterServiceTest {
         verify(adopterRepository, times(1)).findById(id);
         verify(adopterRepository, times(1)).save(adopter);
     }
+
+    @Test
+    void findAll_ReturnsEmptyPage_WhenNoAdoptersFound() {
+        // Prepare test data
+        Pageable pageable = Pageable.unpaged();
+
+        // Configure mock repository to return an empty page
+        when(adopterRepository.findAll(pageable)).thenReturn(Page.empty());
+
+        // Perform the service method
+        Page<GetAdopterDTO> result = adopterService.findAll(pageable, "");
+
+        // Verify the result is an empty page
+        assertTrue(result.isEmpty());
+        verify(adopterRepository, times(1)).findAll(pageable);
+        verifyNoInteractions(modelMapper);
+    }
 }
