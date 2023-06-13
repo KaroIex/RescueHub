@@ -1,5 +1,6 @@
 package com.example.rescuehubproject.accounts.services;
 
+import com.example.rescuehubproject.accounts.entity.Log;
 import com.example.rescuehubproject.accounts.entity.User;
 import com.example.rescuehubproject.accounts.execeptions.RoleException;
 import com.example.rescuehubproject.accounts.execeptions.UserNotFoundException;
@@ -8,6 +9,7 @@ import com.example.rescuehubproject.accounts.request.RoleRequest;
 import com.example.rescuehubproject.accounts.responses.DeleteUserResponse;
 import com.example.rescuehubproject.accounts.responses.RoleResponse;
 import com.example.rescuehubproject.accounts.responses.UserListResponse;
+import com.example.rescuehubproject.accounts.util.LogEvent;
 import com.example.rescuehubproject.accounts.util.Role;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
@@ -23,9 +25,11 @@ import static com.example.rescuehubproject.accounts.util.RoleOperation.REMOVE;
 public class AdminService {
 
     private final UserRepository userRepository;
+    private final LogService logService;
 
-    public AdminService(UserRepository userRepository) {
+    public AdminService(UserRepository userRepository, LogService logService) {
         this.userRepository = userRepository;
+        this.logService = logService;
     }
 
     @Transactional
@@ -43,11 +47,37 @@ public class AdminService {
             case GRANT -> {
                 if (!userRoles.contains(role)) {
                     user.addRole(role);
+
+                    String witchRole = role.toString().substring(5);
+                    String who = user.getEmail();
+                    String communicat = String.format("Grant role %s to %s", witchRole, who);
+
+                    Log log = Log.builder().
+                            setAction(LogEvent.GRANT_ROLE).
+                            setSubject(user.getEmail()).
+                            setObject(communicat).
+                            setPath("/api/admin/user/role").
+                            build();
+                    logService.saveLog(log);
+
                 }
             }
             case REMOVE -> {
                 checkIfUserHasRole(role, user);
                 user.removeRole(role);
+
+                String witchRole = role.toString().substring(5);
+                String who = user.getEmail();
+                String communicat = String.format("Remove role %s from %s", witchRole, who);
+
+                Log log = Log.builder().
+                        setAction(LogEvent.REMOVE_ROLE).
+                        setSubject(user.getEmail()).
+                        setObject(communicat).
+                        setPath("/api/admin/user/role").
+                        build();
+                logService.saveLog(log);
+
             }
             default -> throw new IllegalArgumentException("Invalid operation: " + roleRequest.operation());
         }
@@ -73,6 +103,17 @@ public class AdminService {
         if (user.getRoles().contains(ROLE_ADMINISTRATOR)) {
             throw new RoleException("Can't remove ADMINISTRATOR role!");
         }
+
+        User admin = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+
+        Log log = Log.builder()
+                .setAction(LogEvent.DELETE_USER)
+                .setSubject(admin.getEmail())
+                .setObject(user.getEmail())
+                .setPath("/api/admin/user")
+                .build();
+        logService.saveLog(log);
+
         userRepository.delete(user);
         return new ResponseEntity<>(DeleteUserResponse.response(user), HttpStatus.OK);
     }

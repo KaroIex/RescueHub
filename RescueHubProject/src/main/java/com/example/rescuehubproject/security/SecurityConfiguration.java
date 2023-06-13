@@ -12,7 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Collections;
@@ -56,7 +58,7 @@ public class SecurityConfiguration {
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http
                 .httpBasic()
-                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                .authenticationEntryPoint(getAuthenticationEntryPoint())
                 .and()
                 .formLogin().permitAll()
                 .and()
@@ -73,6 +75,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/api/admin/user/**").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.PUT, "/api/admin/user/role/**").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.GET, "/api/admin/user/**").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.GET, "/api/admin/logs").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.PUT, "/api/empl/authenticated").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/api/empl/protected").authenticated()
 
@@ -97,6 +100,8 @@ public class SecurityConfiguration {
                         .anyRequest().permitAll() // any other request for test purpose
                 )
                 .userDetailsService(userDetailsService)
+                .exceptionHandling().accessDeniedHandler(getAccessDeniedHandler())
+                .and()
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
@@ -104,6 +109,16 @@ public class SecurityConfiguration {
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationEntryPoint getAuthenticationEntryPoint() {
+        return new RestAuthenticationEntryPoint();
+    }
+
+    @Bean
+    public AccessDeniedHandler getAccessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
     }
 
 }
