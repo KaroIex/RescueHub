@@ -24,6 +24,14 @@ public class Animal {
     @Column(name = "id_animal", nullable = false)
     private Long id;
 
+    @Column(name = "needs_attention", nullable = false)
+    private boolean needsAttention;
+
+    @Column(name = "is_social_animal", nullable = false)
+    private boolean isSocialAnimal;
+
+    @Column(name = "needs_outdoor_space", nullable = false)
+    private boolean needsOutdoorSpace;
     @Column(name = "name", nullable = false)
     private String name;
 
