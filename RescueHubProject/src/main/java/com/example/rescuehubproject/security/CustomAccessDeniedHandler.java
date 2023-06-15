@@ -34,6 +34,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
                 .setAction(LogEvent.ACCESS_DENIED)
                 .setSubject(subject)
                 .setObject(requestUri)
+                .setPath(requestUri)
                 .build();
         logService.saveLog(log);
 

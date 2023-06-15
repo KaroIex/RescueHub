@@ -13,6 +13,8 @@ public class UserDetailsImpl implements UserDetails { // used to work with Sprin
 
     private final User user;
 
+    private final Long id;
+
     private final String username;
 
     private final String password;
@@ -24,6 +26,7 @@ public class UserDetailsImpl implements UserDetails { // used to work with Sprin
         this.user = user;
         this.username = user.getEmail();
         this.password = user.getPassword();
+        this.id = user.getId();
         this.authorities = new ArrayList<>(getAuthorities());
     }
 
@@ -62,5 +65,14 @@ public class UserDetailsImpl implements UserDetails { // used to work with Sprin
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getRoles() {
+        //zwróć liste ról
+        return  authorities.toString();
+    }
+
+    public String getId() {
+        return id.toString();
     }
 }

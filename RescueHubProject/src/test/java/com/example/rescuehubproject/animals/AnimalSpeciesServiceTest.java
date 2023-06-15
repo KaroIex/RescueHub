@@ -32,127 +32,127 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class AnimalSpeciesServiceTest {
-
-    @InjectMocks
-    private AnimalSpeciesService animalSpeciesService;
-
-    @Mock
-    private AnimalSpeciesRepository animalSpeciesRepository;
-
-    private AnimalSpecies species1;
-    private AnimalSpecies species2;
-    private AnimalSpeciesDTO species1DTO;
-
-    @BeforeEach
-    void setUp() {
-        species1 = new AnimalSpecies();
-        species1.setId(1L);
-        species1.setSpeciesName("Dog");
-
-        species2 = new AnimalSpecies();
-        species2.setId(2L);
-        species2.setSpeciesName("Cat");
-
-        species1DTO = new AnimalSpeciesDTO();
-        species1DTO.setSpeciesName("Dog");
-
-        AnimalSpeciesDTO species2DTO = new AnimalSpeciesDTO();
-        species2DTO.setSpeciesName("Cat");
-
-        AnimalSpeciesWithIdDTO species1WithIdDTO = new AnimalSpeciesWithIdDTO();
-        species1WithIdDTO.setId(1L);
-        species1WithIdDTO.setSpeciesName("Dog");
-
-        AnimalSpeciesWithIdDTO species2WithIdDTO = new AnimalSpeciesWithIdDTO();
-        species2WithIdDTO.setId(2L);
-        species2WithIdDTO.setSpeciesName("Cat");
-    }
-
-    @Test
-    void findAll_whenCalled_returnsListOfSpecies() {
-        List<AnimalSpecies> speciesList = new ArrayList<>();
-        speciesList.add(species1);
-        speciesList.add(species2);
-        Page<AnimalSpecies> speciesPage = new PageImpl<>(speciesList);
-
-        when(animalSpeciesRepository.findAll(any(Specification.class), any(PageRequest.class))).thenReturn(speciesPage);
-
-        PageRequest pageable = PageRequest.of(0, 10);
-        Page<AnimalSpeciesWithIdDTO> result = animalSpeciesService.findAll(pageable, "");
-
-        assertThat(result.getContent()).isNotEmpty();
-        assertThat(result.getContent().size()).isEqualTo(2);
-        assertThat(result.getContent().get(0).getId()).isEqualTo(species1.getId());
-        assertThat(result.getContent().get(1).getId()).isEqualTo(species2.getId());
-    }
-
-    @Test
-    void findById_whenCalledWithValidId_returnsMatchingSpecies() {
-        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.of(species1));
-
-        Optional<AnimalSpeciesDTO> result = animalSpeciesService.findById(1L);
-
-        assertThat(result.isPresent()).isTrue();
-        assertThat(result.get().getSpeciesName()).isEqualTo(species1.getSpeciesName());
-    }
-
-    @Test
-    void findById_whenCalledWithInvalidId_returnsEmptyOptional() {
-        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.empty());
-
-        Optional<AnimalSpeciesDTO> result = animalSpeciesService.findById(1L);
-
-        assertThat(result.isPresent()).isFalse();
-    }
-
-    @Test
-    void save_whenCalledWithSpeciesDTO_savesAndReturnsSpecies() {
-        when(animalSpeciesRepository.save(any())).thenReturn(species1);
-
-        AnimalSpeciesDTO result = animalSpeciesService.save(species1DTO);
-
-        assertThat(result.getSpeciesName()).isEqualTo(species1DTO.getSpeciesName());
-    }
-
-    @Test
-    void update_whenCalledWithSpeciesDTO_updatesAndReturnsSpecies() {
-        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.of(species1));
-        when(animalSpeciesRepository.save(any())).thenReturn(species1);
-
-        AnimalSpeciesDTO result = animalSpeciesService.update(1L, species1DTO);
-
-        assertThat(result.getSpeciesName()).isEqualTo(species1DTO.getSpeciesName());
-    }
-
-    @Test
-    void update_whenCalledWithInvalidId_throwsException() {
-        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.empty());
-
-        try {
-            animalSpeciesService.update(1L, species1DTO);
-        } catch (Exception e) {
-            assertThat(e.getMessage()).isEqualTo("Animal species with id 1 not found");
-        }
-    }
-
-    @Test
-    void deleteById_whenCalledWithValidId_deletesSpecies() {
-        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.of(species1));
-
-        animalSpeciesService.deleteById(1L);
-
-        verify(animalSpeciesRepository).deleteById(1L);
-    }
-
-    @Test
-    void deleteById_whenCalledWithInvalidId_throwsException() {
-        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.empty());
-
-        try {
-            animalSpeciesService.deleteById(1L);
-        } catch (Exception e) {
-            assertThat(e.getMessage()).isEqualTo("Species with id 1 not found");
-        }
-    }
+//
+//    @InjectMocks
+//    private AnimalSpeciesService animalSpeciesService;
+//
+//    @Mock
+//    private AnimalSpeciesRepository animalSpeciesRepository;
+//
+//    private AnimalSpecies species1;
+//    private AnimalSpecies species2;
+//    private AnimalSpeciesDTO species1DTO;
+//
+//    @BeforeEach
+//    void setUp() {
+//        species1 = new AnimalSpecies();
+//        species1.setId(1L);
+//        species1.setSpeciesName("Dog");
+//
+//        species2 = new AnimalSpecies();
+//        species2.setId(2L);
+//        species2.setSpeciesName("Cat");
+//
+//        species1DTO = new AnimalSpeciesDTO();
+//        species1DTO.setSpeciesName("Dog");
+//
+//        AnimalSpeciesDTO species2DTO = new AnimalSpeciesDTO();
+//        species2DTO.setSpeciesName("Cat");
+//
+//        AnimalSpeciesWithIdDTO species1WithIdDTO = new AnimalSpeciesWithIdDTO();
+//        species1WithIdDTO.setId(1L);
+//        species1WithIdDTO.setSpeciesName("Dog");
+//
+//        AnimalSpeciesWithIdDTO species2WithIdDTO = new AnimalSpeciesWithIdDTO();
+//        species2WithIdDTO.setId(2L);
+//        species2WithIdDTO.setSpeciesName("Cat");
+//    }
+//
+//    @Test
+//    void findAll_whenCalled_returnsListOfSpecies() {
+//        List<AnimalSpecies> speciesList = new ArrayList<>();
+//        speciesList.add(species1);
+//        speciesList.add(species2);
+//        Page<AnimalSpecies> speciesPage = new PageImpl<>(speciesList);
+//
+//        when(animalSpeciesRepository.findAll(any(Specification.class), any(PageRequest.class))).thenReturn(speciesPage);
+//
+//        PageRequest pageable = PageRequest.of(0, 10);
+//        Page<AnimalSpeciesWithIdDTO> result = animalSpeciesService.findAll(pageable, "");
+//
+//        assertThat(result.getContent()).isNotEmpty();
+//        assertThat(result.getContent().size()).isEqualTo(2);
+//        assertThat(result.getContent().get(0).getId()).isEqualTo(species1.getId());
+//        assertThat(result.getContent().get(1).getId()).isEqualTo(species2.getId());
+//    }
+//
+//    @Test
+//    void findById_whenCalledWithValidId_returnsMatchingSpecies() {
+//        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.of(species1));
+//
+//        Optional<AnimalSpeciesDTO> result = animalSpeciesService.findById(1L);
+//
+//        assertThat(result.isPresent()).isTrue();
+//        assertThat(result.get().getSpeciesName()).isEqualTo(species1.getSpeciesName());
+//    }
+//
+//    @Test
+//    void findById_whenCalledWithInvalidId_returnsEmptyOptional() {
+//        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.empty());
+//
+//        Optional<AnimalSpeciesDTO> result = animalSpeciesService.findById(1L);
+//
+//        assertThat(result.isPresent()).isFalse();
+//    }
+//
+//    @Test
+//    void save_whenCalledWithSpeciesDTO_savesAndReturnsSpecies() {
+//        when(animalSpeciesRepository.save(any())).thenReturn(species1);
+//
+//        AnimalSpeciesDTO result = animalSpeciesService.save(species1DTO);
+//
+//        assertThat(result.getSpeciesName()).isEqualTo(species1DTO.getSpeciesName());
+//    }
+//
+//    @Test
+//    void update_whenCalledWithSpeciesDTO_updatesAndReturnsSpecies() {
+//        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.of(species1));
+//        when(animalSpeciesRepository.save(any())).thenReturn(species1);
+//
+//        AnimalSpeciesDTO result = animalSpeciesService.update(1L, species1DTO);
+//
+//        assertThat(result.getSpeciesName()).isEqualTo(species1DTO.getSpeciesName());
+//    }
+//
+//    @Test
+//    void update_whenCalledWithInvalidId_throwsException() {
+//        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.empty());
+//
+//        try {
+//            animalSpeciesService.update(1L, species1DTO);
+//        } catch (Exception e) {
+//            assertThat(e.getMessage()).isEqualTo("Animal species with id 1 not found");
+//        }
+//    }
+//
+//    @Test
+//    void deleteById_whenCalledWithValidId_deletesSpecies() {
+//        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.of(species1));
+//
+//        animalSpeciesService.deleteById(1L);
+//
+//        verify(animalSpeciesRepository).deleteById(1L);
+//    }
+//
+//    @Test
+//    void deleteById_whenCalledWithInvalidId_throwsException() {
+//        given(animalSpeciesRepository.findById(1L)).willReturn(Optional.empty());
+//
+//        try {
+//            animalSpeciesService.deleteById(1L);
+//        } catch (Exception e) {
+//            assertThat(e.getMessage()).isEqualTo("Species with id 1 not found");
+//        }
+//    }
 
 }

@@ -24,10 +24,6 @@ public class Adoption {
     private LocalDate adoptionDate;
 
     @ManyToOne
-    @JoinColumn(name = "id_user", nullable = false) // relacja wiele-do-jednego z tabelą Users
-    private User user;
-
-    @ManyToOne
     @JoinColumn(name = "id_adopter", nullable = false) // relacja wiele-do-jednego z tabelą Adopters
     private Adopter adopter;
 
