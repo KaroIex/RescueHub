@@ -50,6 +50,10 @@ public class AnimalService {
         animal.setAge(animalDTO.getAge());
         animal.setName(animalDTO.getName());
         animal.setDescription(animalDTO.getDescription());
+        animal.setSocialAnimal(animalDTO.isSocialAnimal());
+        animal.setNeedsAttention(animalDTO.isNeedsAttention());
+        animal.setNeedsOutdoorSpace(animalDTO.isNeedsOutdoorSpace());
+        animal.setGoodWithChildren(animalDTO.isGoodWithChildren());
 
         List<AnimalSpecies> animalSpecies = animalSpeciesRepository.findAll();
         for(AnimalSpecies as: animalSpecies){
@@ -74,6 +78,10 @@ public class AnimalService {
         animalDTO.setAge(animal.getAge());
         animalDTO.setAnimalSpecies(animal.getAnimalSpecies().getSpeciesName());
         animalDTO.setDescription(animal.getDescription());
+        animalDTO.setSocialAnimal(animal.isSocialAnimal());
+        animalDTO.setNeedsAttention(animal.isNeedsAttention());
+        animalDTO.setNeedsOutdoorSpace(animal.isNeedsOutdoorSpace());
+        animal.setGoodWithChildren(animalDTO.isGoodWithChildren());
         return animalDTO;
     }
 
@@ -82,6 +90,7 @@ public class AnimalService {
         animal.setName(animalDTO.getName());
         animal.setAge(animalDTO.getAge());
         animal.setDescription(animalDTO.getDescription());
+
         List<AnimalSpecies> animalSpecies = animalSpeciesRepository.findAll();
         for(AnimalSpecies as: animalSpecies) {
             if (Objects.equals(as.getSpeciesName(), animalDTO.getAnimalSpecies())) {

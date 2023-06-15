@@ -10,6 +10,6 @@ import lombok.Setter;
 public class GetAdopterDTO {
 
     private Long id;
-    private String name;
+    private String Email;
 
 }
