@@ -7,7 +7,45 @@ on:
   workflow_dispatch:
 
 jobs:
+  build-deployment-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'  
+      - name: Grant execute permission for gradlew
+        run: |
+          cd RescueHubProject
+          chmod +x gradlew
+      - name: Build with Gradle
+        run: |
+          cd RescueHubProject
+          ./gradlew bootJar
+      - name: Log in to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: rescuehubdev.azurecr.io
+          username: ${{ secrets.ACR_DEV_USERNAME }}
+          password: ${{ secrets.ACR_DEV_PASSWORD }}
+      - name: Build and push Docker image
+        run: |
+          cd RescueHubProject
+          docker build -t rescuehubdev.azurecr.io/rescuehub:${{ github.sha }} .
+          docker push rescuehubdev.azurecr.io/rescuehub:${{ github.sha }}
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: RescueHubApp-dev
+          slot-name: production
+          publish-profile: ${{ secrets.PUBLISH_PROFILE_SERVER_DEV }}
+          images: rescuehubdev.azurecr.io/rescuehub:${{ github.sha }}
+          
+          
   build-deployment:
+    needs: build-deployment-dev
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
