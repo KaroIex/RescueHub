@@ -9,6 +9,9 @@ on:
 jobs:
   build-deployment-dev:
     runs-on: ubuntu-latest
+    environment:
+      name: 'Dev'
+      url: ${{ steps.Deploy_to_Azure_App_Service.webapp-url }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 17
@@ -46,6 +49,9 @@ jobs:
           
   build-deployment:
     needs: build-deployment-dev
+    environment:
+      name: 'Prod'
+      url: ${{ steps.Deploy_to_Azure_App_Service.webapp-url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
