@@ -19,5 +19,6 @@ Changelog
 ## 09.06 (K) Refaktor adoptera, dokumentacja
 ## 09.06 (ANG) Poprawa i aktualizacja CRUD dla Animals, dodanie adnotacji dokumentacyjncyh do swaggera dla metody update()
 ## 12.06 (M) logowanie niektorych zdażeń i zapis do bazy danych
+## 15.06 (M) Poprawienie budownieczego, walidacja emaila, test tworzenia usera, dokumtenacja do pakietu accounts
 
 
