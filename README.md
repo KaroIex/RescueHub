@@ -6,6 +6,7 @@
 |:------:|:------:|:------:|:------:
 | _Team Leader_, _Backend_, _DevOps_ | _Backend_  | _Backend_ | _Backend_ | 
 
+
 Changelog
 
 ## 17.05 (M) - utworzenie projektu, dodanie zależności spring-starter-web oraz spring-starter-test, utworzenie testowego endpointu hello.
