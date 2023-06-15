@@ -4,6 +4,7 @@ package com.example.rescuehubproject.accounts.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,7 @@ public class Person {
 
     @NotEmpty(message = "email required")
     @Column(name = "email", nullable = false, unique = true)
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$")
     private String email;
 
     public Person(String name, String lastname, String email) {

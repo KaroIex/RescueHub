@@ -8,7 +8,11 @@ import com.example.rescuehubproject.accounts.responses.PasswordChanged;
 import com.example.rescuehubproject.security.JwtUtils;
 import com.example.rescuehubproject.security.UserDetailsImpl;
 import com.example.rescuehubproject.accounts.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth")
 @Validated
+@Tag(name = "Users", description = "Endpoints for user management")
 public class UserController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
@@ -32,14 +37,21 @@ public class UserController {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
     }
+
     @PostMapping("/signup")
-    @ResponseStatus(HttpStatus.BAD_REQUEST) // when unauthorized
-    public ResponseEntity<User> registerAccount(@Valid @RequestBody User user) {
+    @Operation(summary = "Register a new user")
+    @ApiResponse(responseCode = "200", description = "User created")
+    @ApiResponse(responseCode = "400",  description = "User account not created")
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<User> registerAccount(@Valid @RequestBody @Parameter(description = "Details to create user") User user) {
         return userService.registerAccount(user);
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<AuthenticationResponse> authenticateUser(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
+    @Operation(summary = "Endpoint for authentication")
+    @ApiResponse(responseCode = "200", description = "User authenticated")
+    @ApiResponse(responseCode = "400",  description = "User not authenticated")
+    public ResponseEntity<AuthenticationResponse> authenticateUser(@Valid @RequestBody @Parameter(description = "Details to authenticate") AuthenticationRequest authenticationRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
 
@@ -50,11 +62,13 @@ public class UserController {
     }
 
     @PostMapping("/changepass")
+    @Operation(summary = "Endpoint for changing password")
+    @ApiResponse(responseCode = "200", description = "Password changed")
+    @ApiResponse(responseCode = "400",  description = "Password not changed")
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<PasswordChanged> changePassword(@AuthenticationPrincipal UserDetailsImpl userDetails, @Valid @RequestBody ChangePass changePass) {
+    public ResponseEntity<PasswordChanged> changePassword(@AuthenticationPrincipal @Parameter(description = "Current user details") UserDetailsImpl userDetails, @Valid @RequestBody @Parameter(description = "New password") ChangePass changePass) {
         return userService.changePassword(userDetails, changePass);
     }
-
 
 
 }
