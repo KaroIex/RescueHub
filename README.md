@@ -1,5 +1,10 @@
 # RescueHub
-<h4 align="center">Karol Kula<br>Mateusz Gruszkiewicz<br>Arkadiusz Szymarek<br>Angelina Piatrowicz<br></h4>
+
+## Team members
+
+| Karol Kula | Mateusz Gruszkiewicz | Arek Szymanek | Angelina Piatrowicz |  
+|:------:|:------:|:------:|:------:
+| _Team Leader_, _Backend_, _DevOps_ | _Backend_  | _Backend_ | _Backend_ | 
 
 Changelog
 
