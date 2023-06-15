@@ -26,5 +26,6 @@ Changelog
 ## 09.06 (ANG) Poprawa i aktualizacja CRUD dla Animals, dodanie adnotacji dokumentacyjncyh do swaggera dla metody update()
 ## 12.06 (M) logowanie niektorych zdażeń i zapis do bazy danych
 ## 15.06 (M) Poprawienie budownieczego, walidacja emaila, test tworzenia usera, dokumtenacja do pakietu accounts
+## 15.06 (K) Dodanie algorytmu dopasowania krzystając ze wzorca strategia, umożliwienie adopcji, uniemożliwienie modyfikacji zasobów innych użytkowników z rolą adopter, dodanie seedara dla bazy danych i przygotowanie przykladowych danych, poprawa i refaktor adoptera, dodanie środowiska deweloperskiego dla cd i pewnie coś jeszcze ale nie pamiętam.
 
 
