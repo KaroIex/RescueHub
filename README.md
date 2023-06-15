@@ -21,11 +21,11 @@ Changelog
 ## 30.05 (M) Dodanie ról i uprawnien, rekonifuracja spirng security, utworzenie 3 endpoitow do dodania uzyztkownikowi roli, wyswietlenia wszystkich uzytkownikow oraz usuniecia uzytkownika wraz z jego uprawnieniami, dodanie kolekcji requestow w postmanie do przetestowania endpointow
 ## 30.05 (ANG) CRUD dla Animals
 ## 31.05 (M) Utworzenie i konfiguracja pliku Dockerfile do tworzenia obrazu konternera, utworzenie i przetestowanie obrazu. Konfiguracja przekierowania katalogu glownego do swaggera.
-## 08.06 (K) Utworzenie środowiska testowego, testy dla animalspeciescontroller i animalspeciesservice, dodanie adnotacji dokumentacyjncyh do swaggera, poprawa encji
+## 08.06 (K) Utworzenie środowiska testowego, testy dla animalspeciescontroller i animalspeciesservice, dodanie adnotacji dokumentacyjnych do swaggera, poprawa encji
 ## 09.06 (K) Refaktor adoptera, dokumentacja
 ## 09.06 (ANG) Poprawa i aktualizacja CRUD dla Animals, dodanie adnotacji dokumentacyjncyh do swaggera dla metody update()
 ## 12.06 (M) logowanie niektorych zdażeń i zapis do bazy danych
 ## 15.06 (M) Poprawienie budownieczego, walidacja emaila, test tworzenia usera, dokumtenacja do pakietu accounts
-## 15.06 (K) Dodanie algorytmu dopasowania krzystając ze wzorca strategia, umożliwienie adopcji, uniemożliwienie modyfikacji zasobów innych użytkowników z rolą adopter, dodanie seedara dla bazy danych i przygotowanie przykladowych danych, poprawa i refaktor adoptera, dodanie środowiska deweloperskiego dla cd i pewnie coś jeszcze ale nie pamiętam.
+## 15.06 (K) Dodanie algorytmu dopasowania krzystając ze wzorca strategia, umożliwienie adopcji, uniemożliwienie modyfikacji zasobów innych użytkowników z rolą adopter, dodanie seedera dla bazy danych i przygotowanie przykladowych danych, poprawa i refaktor adoptera, dodanie środowiska deweloperskiego dla cd i pewnie coś jeszcze ale nie pamiętam.
 
 
