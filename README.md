@@ -18,5 +18,6 @@ Changelog
 ## 08.06 (K) Utworzenie środowiska testowego, testy dla animalspeciescontroller i animalspeciesservice, dodanie adnotacji dokumentacyjncyh do swaggera, poprawa encji
 ## 09.06 (K) Refaktor adoptera, dokumentacja
 ## 09.06 (ANG) Poprawa i aktualizacja CRUD dla Animals, dodanie adnotacji dokumentacyjncyh do swaggera dla metody update()
+## 12.06 (M) logowanie niektorych zdażeń i zapis do bazy danych
 
 
