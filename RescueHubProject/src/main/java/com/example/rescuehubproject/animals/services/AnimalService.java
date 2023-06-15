@@ -53,6 +53,7 @@ public class AnimalService {
         animal.setSocialAnimal(animalDTO.isSocialAnimal());
         animal.setNeedsAttention(animalDTO.isNeedsAttention());
         animal.setNeedsOutdoorSpace(animalDTO.isNeedsOutdoorSpace());
+        animal.setGoodWithChildren(animalDTO.isGoodWithChildren());
 
         List<AnimalSpecies> animalSpecies = animalSpeciesRepository.findAll();
         for(AnimalSpecies as: animalSpecies){
@@ -80,6 +81,7 @@ public class AnimalService {
         animalDTO.setSocialAnimal(animal.isSocialAnimal());
         animalDTO.setNeedsAttention(animal.isNeedsAttention());
         animalDTO.setNeedsOutdoorSpace(animal.isNeedsOutdoorSpace());
+        animal.setGoodWithChildren(animalDTO.isGoodWithChildren());
         return animalDTO;
     }
 

@@ -73,35 +73,6 @@ public class AdopterController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
-    @PostMapping("/adopt/{animalId}")
-    @Operation(summary = "Adopt an animal")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successfully adopted animal",
-                    content = {@Content(mediaType = "application/json")}),
-            @ApiResponse(responseCode = "400", description = "Animal not found or Animal already adopted or User not found or User is not an adopter.", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-    })
-    public ResponseEntity<Void> adopt(@RequestParam(name = "id animal", required = true) @PathVariable Long animalId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        adopterService.adopt(authentication, animalId);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
 
-
-    @PostMapping("/{adopterId}/matchAnimal")
-    @Operation(summary = "Match adopter to animal")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully matched adopter to animal",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = AnimalDTO.class))}),
-            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-    })
-    public ResponseEntity<Page<Map.Entry<AnimalDTO, Double>>> matchAdopterToAnimal(@PathVariable Long adopterId,
-                                                                                   @RequestBody AdoptionFormDTO form,
-                                                                                   @RequestParam(defaultValue = "0") int page,
-                                                                                   @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "value"));
-        Page<Map.Entry<AnimalDTO, Double>> result = adopterService.matchAdopterToAnimal(form, pageable);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
 }
 

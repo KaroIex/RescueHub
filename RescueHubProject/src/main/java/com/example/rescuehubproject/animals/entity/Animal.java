@@ -32,6 +32,9 @@ public class Animal {
 
     @Column(name = "needs_outdoor_space", nullable = false)
     private boolean needsOutdoorSpace;
+
+    @Column(name = "good_with_children", nullable = false)
+    private boolean GoodWithChildren;
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -41,7 +44,7 @@ public class Animal {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "id_species", nullable = false) // relacja wiele-do-jednego z tabelą AnimalSpecies
     private AnimalSpecies animalSpecies;
 

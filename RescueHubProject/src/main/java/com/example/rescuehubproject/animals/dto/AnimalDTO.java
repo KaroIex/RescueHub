@@ -29,15 +29,8 @@ public class AnimalDTO {
     @NotEmpty(message = "Needs outdoor space must not be empty")
     private boolean needsOutdoorSpace;
 
-       public AnimalDTO(String name, Integer age, String animalSpecies, String description, boolean needsAttention, boolean isSocialAnimal, boolean needsOutdoorSpace) {
-            this.name = name;
-            this.age = age;
-            this.animalSpecies = animalSpecies;
-            this.description = description;
-            this.needsAttention = needsAttention;
-            this.isSocialAnimal = isSocialAnimal;
-            this.needsOutdoorSpace = needsOutdoorSpace;
-        }
+    @NotEmpty(message = "Good with children must not be empty")
+    private boolean GoodWithChildren;
 
 
     public AnimalDTO() {
@@ -47,7 +40,9 @@ public class AnimalDTO {
     public String toString() {
         return
                 "name='" + name + '\'' +
-                ", animalSpecies='" + animalSpecies + '\'';
+                        ", animalSpecies='" + animalSpecies + '\'';
 
     }
+
+
 }

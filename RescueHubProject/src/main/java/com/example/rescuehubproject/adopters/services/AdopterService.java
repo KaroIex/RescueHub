@@ -13,8 +13,8 @@ import com.example.rescuehubproject.adopters.exceptions.UserNotFoundException;
 import com.example.rescuehubproject.adopters.repositories.AdopterRepository;
 import com.example.rescuehubproject.adoption.dto.AdoptionFormDTO;
 import com.example.rescuehubproject.adoption.entity.Adoption;
-import com.example.rescuehubproject.adoption.logic.AnimalMatchingAlgorithm;
-import com.example.rescuehubproject.adoption.logic.PetMatchingAlgorithm;
+import com.example.rescuehubproject.adoption.services.AnimalMatchingAlgorithm;
+import com.example.rescuehubproject.adoption.services.PetMatchingAlgorithm;
 import com.example.rescuehubproject.adoption.repositories.AdoptionRepository;
 import com.example.rescuehubproject.animals.dto.AnimalDTO;
 import com.example.rescuehubproject.animals.entity.Animal;
@@ -26,14 +26,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,15 +39,16 @@ public class AdopterService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private AdopterRepository adopterRepository;
-
     @Autowired
     private AdoptionRepository adoptionRepository;
 
     @Autowired
     private AnimalRepository animalRepository;
+
+    @Autowired
+    private List<AnimalMatchingAlgorithm> algorithms;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -91,64 +88,8 @@ public class AdopterService {
         return null;
     }
 
-    public Adoption adopt(Authentication authentication, Long animalId) {
 
 
-        String userId = null;
-
-        if (authentication.getPrincipal() instanceof UserDetailsImpl) {
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            userId = userDetails.getId();
-        }
-        else { throw new UserNotFoundException(); }
-
-        Optional<User> userOptional = userRepository.findById(Long.parseLong(userId));
-        Optional<Animal> animalOptional = animalRepository.findById(animalId);
-
-        if (!userOptional.isPresent()) throw new UserNotFoundException();
-        if (!animalOptional.isPresent()) throw new AnimalNotFoundException();
-
-        User user = userOptional.get();
-        Animal animal = animalOptional.get();
-
-        if (!user.getRoles().contains(Role.ROLE_ADOPTER)) throw new UserIsNotAnAdopter();
-        if (animal.getAdoptions().size() > 0) throw new AnimalAlreadyAdoptedException();
-
-        Adopter adopter = user.getAdopter();
-        Adoption adoption = new Adoption();
-
-        adoption.setAdoptionDate(LocalDate.now());
-        adoption.setAdopter(adopter);
-        adoption.setAnimal(animal);
-        adoptionRepository.save(adoption);
-
-        animal.addAdoption(adoption);
-        animalRepository.save(animal);
-
-        return adoption;
-    }
-
-
-    public Page<Map.Entry<AnimalDTO, Double>> matchAdopterToAnimal(AdoptionFormDTO form, Pageable pageable) {
-
-        AnimalMatchingAlgorithm algorithm = new PetMatchingAlgorithm();
-
-        List<Animal> animals = animalRepository.findAll();
-
-        var dtos = animals.stream()
-                .map(animal -> modelMapper.map(animal, AnimalDTO.class))
-                .collect(Collectors.toList());
-
-        Map<AnimalDTO, Double> result = algorithm.calculateMatching(form, dtos);
-
-        List<Map.Entry<AnimalDTO, Double>> entries = new ArrayList<>(result.entrySet());
-        entries.sort(Map.Entry.comparingByValue());
-
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), entries.size());
-
-        return new PageImpl<>(entries.subList(start, end), pageable, entries.size());
-    }
 
 
 
