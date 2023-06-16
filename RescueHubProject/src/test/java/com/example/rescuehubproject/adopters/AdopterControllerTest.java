@@ -1,197 +1,123 @@
 package com.example.rescuehubproject.adopters;
 
-import com.example.rescuehubproject.accounts.entity.User;
-import com.example.rescuehubproject.accounts.controllers.UserController;
-import com.example.rescuehubproject.accounts.request.AuthenticationRequest;
-import com.example.rescuehubproject.accounts.util.Role;
+import com.example.rescuehubproject.accounts.repositories.UserRepository;
 import com.example.rescuehubproject.adopters.controllers.AdopterController;
 import com.example.rescuehubproject.adopters.dto.GetAdopterByIdDTO;
 import com.example.rescuehubproject.adopters.dto.GetAdopterDTO;
-import com.example.rescuehubproject.adopters.dto.UpdateAdopterDTO;
-import com.example.rescuehubproject.adopters.entities.Adopter;
+import com.example.rescuehubproject.adopters.exceptions.UserNotFoundException;
+import com.example.rescuehubproject.adopters.repositories.AdopterRepository;
 import com.example.rescuehubproject.adopters.services.AdopterService;
-import org.junit.jupiter.api.BeforeEach;
+import com.example.rescuehubproject.setup.DataInitializer;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.modelmapper.ModelMapper;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.springframework.test.context.TestPropertySource;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-
-
-
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(AdopterController.class)
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class AdopterControllerTest {
-//
-//    @Autowired
-//    private MockMvc mockMvc;
-//
-//    @InjectMocks
-//    private AdopterController adopterController;
-//
-//    @Mock
-//    private AdopterService adopterService;
-//
-//    @Mock
-//    private ModelMapper modelMapper;
-//
-//    private Adopter adopter;
-//    private GetAdopterDTO getAdopterDTO;
-//    private GetAdopterByIdDTO getAdopterByIdDTO;
-//    private UpdateAdopterDTO updateAdopterDTO;
-//
-//    private GetAdopterByIdDTO adopterByIdDTO;
-//
-//    ObjectMapper objectMapper = new ObjectMapper();
-//
-//
-//    @Autowired
-//    private UserController userController;
-//
-//
-//    private String setUpUser() {
-//        User user = new User();
-//        user.setLastname("user");
-//        user.setName("user");
-//        user.setEmail("user@test.com");
-//        user.setPassword("!QAZXSW@123456");
-//        user.addRole(Role.ADOPTER);
-//        userController.registerAccount(user);
-//
-//        User user2 = new User();
-//        user2.setLastname("user2");
-//        user2.setName("user2");
-//        user2.setEmail("user2@test.com");
-//        user2.setPassword("!QAZXSW@123456");
-//        user2.addRole(Role.ADOPTER);
-//        userController.registerAccount(user2);
-//
-//        AuthenticationRequest authenticationRequest = new AuthenticationRequest();
-//        authenticationRequest.setEmail("user@test.com");
-//        authenticationRequest.setPassword("!QAZXSW@123456");
-//
-//        var jwt = userController.authenticateUser(authenticationRequest);
-//        return String.valueOf(jwt);
-//    }
-//
-//    @BeforeEach
-//    void setUp() {
-//
-//        getAdopterDTO = new GetAdopterDTO();
-//        getAdopterDTO.setId(1L);
-//        getAdopterDTO.setName("John");
-//
-//        getAdopterByIdDTO = new GetAdopterByIdDTO();
-//        getAdopterByIdDTO.setId(1L);
-//        getAdopterByIdDTO.setName("John");
-//
-//        updateAdopterDTO = new UpdateAdopterDTO();
-//        updateAdopterDTO.setName("John");
-//        updateAdopterDTO.setLastname("Doe");
-//        updateAdopterDTO.setEmail("john.doe@example.com");
-//        updateAdopterDTO.setPhone("123456789");
-//
-//        adopterByIdDTO = new GetAdopterByIdDTO();
-//        adopterByIdDTO.setId(1L);
-//    }
-//
-//    @Test
-//    @DirtiesContext
-//    void getAllAdopters_whenAuthorizedAdopter_returns_OK() throws Exception {
-//        // given a pageable with adopter data
-//        int page = 0;
-//        int size = 10;
-//        String sortBy = "name";
-//        String direction = "ASC";
-//        String filter = "";
-//        GetAdopterDTO user1 = new GetAdopterDTO();
-//        user1.setId(1L);
-//        user1.setName("user");
-//
-//        GetAdopterDTO user2 = new GetAdopterDTO();
-//        user2.setId(2L);
-//        user2.setName("user2");
-//
-//        Pageable pageable = PageRequest.of(page, size, Sort.Direction.valueOf(direction), sortBy);
-//        List<GetAdopterDTO> adopterList = Arrays.asList(
-//                user1, user2
-//        );
-//        Page<GetAdopterDTO> adopterPage = new PageImpl<>(adopterList, pageable, adopterList.size());
-//
-//        // when
-//        when(adopterService.findAll(pageable, filter)).thenReturn(adopterPage);
-//
-//        // then
-//        mockMvc.perform(get("/api/adopters")
-//                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + setUpUser())
-//                        .param("page", String.valueOf(page))
-//                        .param("size", String.valueOf(size))
-//                        .param("sort", sortBy)
-//                        .param("direction", direction)
-//                        .param("filter", filter))
-//                .andExpect(status().isOk());
-//    }
-//
-//    @Test
-//    void getAllAdopters_ReturnsInternalServerError_WhenExceptionIsThrown() {
-//        when(adopterService.findAll(any(Pageable.class), anyString())).thenThrow(new RuntimeException());
-//
-//        ResponseEntity<List<GetAdopterDTO>> response = adopterController.getAllAdopters(0, 10, "name", "ASC", "");
-//
-//        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-//        assertEquals(null, response.getBody());
-//    }
-//
-//    @Test
-//    void getAdopterById_ReturnsAdopter_WhenFound() {
-//        when(adopterService.findById(anyLong())).thenReturn(adopterByIdDTO);
-//
-//        ResponseEntity<GetAdopterByIdDTO> response = adopterController.getAdopterById(1L);
-//
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//        assertEquals(adopterByIdDTO, response.getBody());
-//    }
-//
-//    @Test
-//    void getAdopterById_ReturnsNotFound_WhenAdopterNotFound() {
-//        when(adopterService.findById(anyLong())).thenReturn(null);
-//
-//        ResponseEntity<GetAdopterByIdDTO> response = adopterController.getAdopterById(1L);
-//
-//        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-//        assertEquals(null, response.getBody());
-//    }
-//
-//    @Test
-//    void updateAdopter_ReturnsNotFound_WhenAdopterNotFound() {
-//        when(adopterService.updateAdopter(anyLong(), any(UpdateAdopterDTO.class))).thenReturn(null);
-//
-//        ResponseEntity<Adopter> response = adopterController.updateAdopter(1L, updateAdopterDTO);
-//
-//        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-//        assertEquals(null, response.getBody());
-//    }
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private AdopterService adopterService;
+
+    @MockBean
+    private DataInitializer dataInitializer;
+
+    @MockBean
+    private UserRepository userRepository;
+
+    @MockBean
+    private AdopterRepository adopterRepository;
+
+    @ParameterizedTest
+    @WithMockUser(roles = {"USER", "ADMINISTRATOR"})
+    @ValueSource(strings = {"USER", "ADMINISTRATOR"})
+    public void testGetAllAdopters(String role) throws Exception {
+
+        GetAdopterDTO getAdopterDto = new GetAdopterDTO();
+        getAdopterDto.setEmail("test@example.com");
+        List<GetAdopterDTO> dtoList = List.of(getAdopterDto);
+
+        Pageable pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "email");
+        Page<GetAdopterDTO> page = new PageImpl<>(dtoList, pageable, dtoList.size());
+
+        when(adopterService.findAll(pageable, "")).thenReturn(page);
+
+        mockMvc.perform(get("/api/adopters").with(user("user").roles(role)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.size()").value(dtoList.size()))
+                .andExpect(jsonPath("$[0].email").value(getAdopterDto.getEmail()));
+    }
+
+    @Test
+    public void testGetAdopterByIdForbiddenForAdopter() throws Exception {
+        Long adopterId = 1L;
+        GetAdopterByIdDTO getAdopterByIdDto = new GetAdopterByIdDTO();
+        getAdopterByIdDto.setId(adopterId);
+        getAdopterByIdDto.setEmail("test@example.com");
+
+        when(adopterService.findById(adopterId)).thenReturn(getAdopterByIdDto);
+
+        mockMvc.perform(get("/api/adopters/" + adopterId))
+                .andExpect(status().isUnauthorized()    );
+
+        verify(adopterService, never()).findById(adopterId);
+    }
+
+    @ParameterizedTest
+    @WithMockUser(roles = {"USER", "ADMIN"})
+    @ValueSource(strings = {"USER", "ADMIN"})
+    public void testGetAdopterById(String role) throws Exception {
+        Long adopterId = 1L;
+        GetAdopterByIdDTO getAdopterByIdDto = new GetAdopterByIdDTO();
+        getAdopterByIdDto.setId(adopterId);
+        getAdopterByIdDto.setEmail("test@example.com");
+
+        when(adopterService.findById(adopterId)).thenReturn(getAdopterByIdDto);
+
+        mockMvc.perform(get("/api/adopters/" + adopterId).with(user("user").roles(role)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.id").value(adopterId))
+                .andExpect(jsonPath("$.email").value(getAdopterByIdDto.getEmail()));
+
+        verify(adopterService, times(1)).findById(adopterId);
+    }
+
+
+
+
+    @ParameterizedTest
+    @WithMockUser(roles = {"USER", "ADMIN"})
+    @ValueSource(strings = {"USER", "ADMIN"})
+    public void testGetAdopterByIdthrowsExceptionWhenUserNotFound(){
+        Long adopterId = 1L;
+        when(adopterService.findById(adopterId)).thenThrow(new UserNotFoundException());
+
+        try {
+            mockMvc.perform(get("/api/adopters/" + adopterId))
+                    .andExpect(status().isBadRequest());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

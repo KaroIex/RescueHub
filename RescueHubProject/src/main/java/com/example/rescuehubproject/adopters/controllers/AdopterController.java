@@ -1,11 +1,13 @@
 package com.example.rescuehubproject.adopters.controllers;
 
+import com.example.rescuehubproject.accounts.repositories.UserRepository;
 import com.example.rescuehubproject.adopters.dto.GetAdopterByIdDTO;
 import com.example.rescuehubproject.adopters.dto.GetAdopterDTO;
+import com.example.rescuehubproject.adopters.dto.PutAdopterDTO;
+import com.example.rescuehubproject.adopters.repositories.AdopterRepository;
 import com.example.rescuehubproject.adopters.services.AdopterService;
-import com.example.rescuehubproject.adoption.dto.AdoptionFormDTO;
-import com.example.rescuehubproject.animals.dto.AnimalDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,7 +25,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -33,6 +34,10 @@ public class AdopterController {
 
     @Autowired
     private AdopterService adopterService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private AdopterRepository adopterRepository;
 
     @GetMapping
     @Operation(summary = "Find all adopters")
@@ -74,5 +79,20 @@ public class AdopterController {
     }
 
 
+    @PutMapping("/{userId}")
+    @Operation(summary = "Update adopter")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully updated adopter",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = PutAdopterDTO.class))}),
+            @ApiResponse(responseCode = "404", description = "Adopter not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+    public ResponseEntity<PutAdopterDTO> updateAdopter(@PathVariable("userId") Long userId, @Parameter(description = "Adopter data to update")
+    @RequestBody PutAdopterDTO adopterDto) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ResponseEntity.ok(adopterService.updateAdopter(authentication, adopterDto));
+
+    }
 }
 
