@@ -5,34 +5,22 @@ import com.example.rescuehubproject.accounts.repositories.UserRepository;
 import com.example.rescuehubproject.accounts.util.Role;
 import com.example.rescuehubproject.adopters.dto.GetAdopterByIdDTO;
 import com.example.rescuehubproject.adopters.dto.GetAdopterDTO;
+import com.example.rescuehubproject.adopters.dto.PutAdopterDTO;
 import com.example.rescuehubproject.adopters.entities.Adopter;
-import com.example.rescuehubproject.adopters.exceptions.AnimalAlreadyAdoptedException;
-import com.example.rescuehubproject.adopters.exceptions.AnimalNotFoundException;
 import com.example.rescuehubproject.adopters.exceptions.UserIsNotAnAdopter;
 import com.example.rescuehubproject.adopters.exceptions.UserNotFoundException;
 import com.example.rescuehubproject.adopters.repositories.AdopterRepository;
-import com.example.rescuehubproject.adoption.dto.AdoptionFormDTO;
-import com.example.rescuehubproject.adoption.entity.Adoption;
-import com.example.rescuehubproject.adoption.services.AnimalMatchingAlgorithm;
-import com.example.rescuehubproject.adoption.services.PetMatchingAlgorithm;
-import com.example.rescuehubproject.adoption.repositories.AdoptionRepository;
-import com.example.rescuehubproject.animals.dto.AnimalDTO;
-import com.example.rescuehubproject.animals.entity.Animal;
-import com.example.rescuehubproject.animals.repositories.AnimalRepository;
 import com.example.rescuehubproject.security.UserDetailsImpl;
 import jakarta.persistence.criteria.Join;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.Optional;
 
 @Service
 public class AdopterService {
@@ -41,14 +29,6 @@ public class AdopterService {
     private UserRepository userRepository;
     @Autowired
     private AdopterRepository adopterRepository;
-    @Autowired
-    private AdoptionRepository adoptionRepository;
-
-    @Autowired
-    private AnimalRepository animalRepository;
-
-    @Autowired
-    private List<AnimalMatchingAlgorithm> algorithms;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -88,26 +68,30 @@ public class AdopterService {
         return null;
     }
 
+    public PutAdopterDTO updateAdopter(Authentication authentication, PutAdopterDTO adopterDto) {
 
+        String userId = null;
 
+        if (authentication.getPrincipal() instanceof UserDetailsImpl userDetails) {
+            userId = userDetails.getId();
+        } else {
+            throw new UserNotFoundException();
+        }
 
+        Optional<User> optionalUser = userRepository.findById(Long.parseLong(userId));
+        if (!optionalUser.isPresent()) throw new UserNotFoundException();
+        User user = optionalUser.get();
+        Adopter adopter = user.getAdopter();
+        if (adopter == null) throw new UserIsNotAnAdopter();
+        adopter.setPhone(adopterDto.getPhone());
+        adopter.setStreet(adopterDto.getStreet());
+        adopter.setCity(adopterDto.getCity());
+        adopter.setState(adopterDto.getState());
+        adopter.setZip(adopterDto.getZip());
+        adopter.setCountry(adopterDto.getCountry());
+        adopterRepository.save(adopter);
+        return adopterDto;
 
+    }
 
-//    public Adopter updateAdopter(Long id, UpdateAdopterDTO updateAdopterDTO) {
-//        Optional<User> userOptional = adopterRepository.findById(id);
-//
-//        if (userOptional.isPresent()) {
-//            User user = userOptional.get();
-//            if (user.getRoles().contains(Role.ROLE_ADOPTER)) {
-//                Adopter adopter = (Adopter) user;
-//                adopter.setName(updateAdopterDTO.getName());
-//                adopter.setLastname(updateAdopterDTO.getLastname());
-//                adopter.setEmail(updateAdopterDTO.getEmail());
-//                adopter.setPhone(updateAdopterDTO.getPhone());
-//                adopterRepository.save(adopter);
-//                return adopter;
-//            }
-//        }
-//        return null;
-//    }
 }
