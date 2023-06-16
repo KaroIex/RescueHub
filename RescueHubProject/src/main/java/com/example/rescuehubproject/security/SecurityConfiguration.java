@@ -100,6 +100,7 @@ public class SecurityConfiguration {
                         //*****ADOPTER*****\\
                         .requestMatchers(HttpMethod.GET, "/api/adopter").hasAnyRole(ADMIN, USER)
                         .requestMatchers(HttpMethod.GET, "/api/adopter/{id}").hasAnyRole(ADMIN, USER)
+                        .anyRequest().permitAll()
 
 
 
