@@ -55,7 +55,7 @@ public class UserService { // service for user registration
         if (users.isEmpty()) {
             role = ADMINISTRATOR; // if there is no users in db, then first user will be admin
         } else {
-            role = USER;
+            role = Role.ADOPTER;
         }
 
         user.addRole(role);
