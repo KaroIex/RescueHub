@@ -1,11 +1,16 @@
 package com.example.rescuehubproject.animals.services;
 
 import com.example.rescuehubproject.animals.dto.AnimalDTO;
+import com.example.rescuehubproject.animals.dto.AnimalSpeciesWithIdDTO;
+import com.example.rescuehubproject.animals.dto.AnimalsWithIdDTO;
 import com.example.rescuehubproject.animals.entity.Animal;
 import com.example.rescuehubproject.animals.entity.AnimalSpecies;
 import com.example.rescuehubproject.animals.repositories.AnimalRepository;
 import com.example.rescuehubproject.animals.repositories.AnimalSpeciesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,12 +36,33 @@ public class AnimalService {
         this.animalSpeciesRepository = animalSpeciesRepository;
     }
 
-    @Transactional
-    public List<AnimalDTO> findAll(){
-        List<Animal> animals = animalRepository.findAll();
-        return animals.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public Page<AnimalsWithIdDTO> findAll(Pageable pageable, String filter){
+        Specification<Animal> spec = createSpecification(filter);
+        return animalRepository.findAll(spec, pageable)
+                .map(this::convertToDTOWithId);
+    }
+
+    private AnimalsWithIdDTO convertToDTOWithId(Animal animal) {
+        AnimalsWithIdDTO animalsWithIdDTO = new AnimalsWithIdDTO();
+        animalsWithIdDTO.setId(animalsWithIdDTO.getId());
+        animalsWithIdDTO.setName(animal.getName());
+        animalsWithIdDTO.setAnimalSpecies(animal.getAnimalSpecies().getSpeciesName());
+        animalsWithIdDTO.setAge(animal.getAge());
+        animalsWithIdDTO.setSocialAnimal(animal.isSocialAnimal());
+        animalsWithIdDTO.setDescription(animal.getDescription());
+        animalsWithIdDTO.setGoodWithChildren(animal.isGoodWithChildren());
+        animalsWithIdDTO.setNeedsAttention(animal.isNeedsAttention());
+        animalsWithIdDTO.setNeedsOutdoorSpace(animal.isNeedsOutdoorSpace());
+        return animalsWithIdDTO;
+    }
+    private Specification<Animal> createSpecification(String filter) {
+        return (root, query, criteriaBuilder) -> {
+            if (filter == null || filter.isEmpty()) {
+                return criteriaBuilder.conjunction();
+            }
+
+            return criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + filter.toLowerCase() + "%");
+        };
     }
     @Transactional
     public Optional<AnimalDTO> findById(Long id){
