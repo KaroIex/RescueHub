@@ -95,9 +95,15 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/animalspecies").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.PUT, "/api/animalspecies/{id}").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.DELETE, "/api/animalspecies/{id}").hasRole(ADMIN)
-                        //*****ANIMAL *****\\ 
+                        //*****ANIMAL *****\\
 
-                        .anyRequest().permitAll() // any other request for test purpose
+                        //*****ADOPTER*****\\
+                        .requestMatchers(HttpMethod.GET, "/api/adopter").hasAnyRole(ADMIN, USER)
+                        .requestMatchers(HttpMethod.GET, "/api/adopter/{id}").hasAnyRole(ADMIN, USER)
+                        .anyRequest().permitAll()
+
+
+
                 )
                 .userDetailsService(userDetailsService)
                 .exceptionHandling().accessDeniedHandler(getAccessDeniedHandler())

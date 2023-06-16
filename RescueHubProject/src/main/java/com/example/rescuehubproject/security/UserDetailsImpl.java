@@ -30,6 +30,14 @@ public class UserDetailsImpl implements UserDetails { // used to work with Sprin
         this.authorities = new ArrayList<>(getAuthorities());
     }
 
+    public UserDetailsImpl(String id, String username, String password, List<Object> emptyList) {
+        this.id = Long.valueOf(id);
+        this.username = username;
+        this.password = password;
+        this.authorities = new ArrayList<>(getAuthorities());
+        this.user = null;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
