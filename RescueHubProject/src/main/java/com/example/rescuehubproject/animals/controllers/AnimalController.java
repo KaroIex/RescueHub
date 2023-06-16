@@ -1,7 +1,6 @@
 package com.example.rescuehubproject.animals.controllers;
 
 import com.example.rescuehubproject.animals.dto.AnimalDTO;
-import com.example.rescuehubproject.animals.dto.AnimalSpeciesWithIdDTO;
 import com.example.rescuehubproject.animals.dto.AnimalsWithIdDTO;
 import com.example.rescuehubproject.animals.services.AnimalService;
 import io.swagger.v3.oas.annotations.Operation;
