@@ -1,0 +1,39 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  autodoc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'  
+      - name: Grant execute permission for gradlew
+        run: |
+          cd RescueHubProject
+          chmod +x gradlew
+      - name: Build with Gradle
+        run: |
+          cd RescueHubProject
+          ./gradlew bootJar
+      - name: Start Application
+        run: |
+          cd RescueHubProject
+          java -jar build/libs/*.jar &
+      
+      - name: Sleep for 30 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '30s'
+      
+      - name: Fetch Swagger JSON
+        run: curl http://localhost:8080/v3/api-docs -o swagger.json
+      
+      - name: Archive Swagger JSON
+        uses: actions/upload-artifact@v2
+        with:
+          name: Swagger-JSON
+          path: swagger.json
