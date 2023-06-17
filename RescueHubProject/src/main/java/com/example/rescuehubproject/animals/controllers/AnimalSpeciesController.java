@@ -63,7 +63,6 @@ public class AnimalSpeciesController {
             @RequestParam(name = "sort", required = false, defaultValue= "speciesName") String sortBy,
             @Parameter(description = "Sorting order in the format: asc|desc. Default sort order is ascending.")
             @RequestParam(name = "direction", required = false, defaultValue = "ASC") String direction,
-            @Parameter(description = "Filter criteria in the format: property[.operation]:value. Supported operations: eq, neq, gt, lt. Example: speciesName.eq=dog")
             @RequestParam(name = "filter", required = false, defaultValue = "") String filter) {
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.Direction.fromString(direction), sortBy);
