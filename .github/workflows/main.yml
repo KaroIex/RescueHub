@@ -50,6 +50,9 @@ jobs:
       
       - name: Convert AsciiDoc to PDF
         run: asciidoctor-pdf doc/api-documentation.adoc -o doc/api-documentation.pdf
+        
+      - name: Copy PDF to docs directory
+        run: cp doc/api-documentation.pdf docs/
       
       - name: Archive AsciiDoc and PDF files
         uses: actions/upload-artifact@v2
