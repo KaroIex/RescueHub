@@ -32,8 +32,16 @@ jobs:
       - name: Fetch Swagger JSON
         run: curl http://localhost:8080/v3/api-docs -o swagger.json
       
-      - name: Archive Swagger JSON
+      - name: Convert Swagger to AsciiDoc
+        run: java -jar doc/swagger2markup-cli-2.0.0-SNAPSHOT.jar convert -i swagger.json -f doc/api
+      
+      - name: Archive Swagger JSON and AsciiDoc files
         uses: actions/upload-artifact@v2
         with:
-          name: Swagger-JSON
-          path: swagger.json
+          name: API-Docs
+          path: |
+            swagger.json
+            doc/api.adoc
+            doc/definitions.adoc
+            doc/overview.adoc
+            doc/paths.adoc
