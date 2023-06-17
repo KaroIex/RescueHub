@@ -45,8 +45,11 @@ jobs:
           sudo gem install asciidoctor-pdf --pre
           asciidoctor-pdf --version
 
+      - name: Combine AsciiDoc files
+        run: cat doc/api/*.adoc > doc/api-documentation.adoc
+      
       - name: Convert AsciiDoc to PDF
-        run: asciidoctor-pdf doc/api/*.adoc -o doc/api-documentation.pdf
+        run: asciidoctor-pdf doc/api-documentation.adoc -o doc/api-documentation.pdf
       
       - name: Archive AsciiDoc and PDF files
         uses: actions/upload-artifact@v2
@@ -54,4 +57,5 @@ jobs:
           name: API-Docs
           path: |
             doc/api/*.adoc
+            doc/api-documentation.adoc
             doc/api-documentation.pdf
