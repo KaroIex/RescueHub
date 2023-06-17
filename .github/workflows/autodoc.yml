@@ -66,13 +66,14 @@ jobs:
             
       - name: Commit PDF file
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git switch develop
           git add docs/api-documentation.pdf
-          git commit -m "Add documentation PDF" -a
-          
+          git commit -m "Add documentation PDF" -a  
+                 
       - name: Push changes
-        uses: ad-m/github-push-action@master
+        uses: actions/checkout@v2
         with:
-          github_token: ${{ secrets.MY_TOKEN }}
-          branch: develop
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
+          persist-credentials: false
+          push: true
+          ref: develop
