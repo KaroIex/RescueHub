@@ -1,3 +1,4 @@
+name: autodoc
 on:
   workflow_dispatch:
 
@@ -74,4 +75,4 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.MY_TOKEN }}
-          branch: documentation-update
+          branch: develop
