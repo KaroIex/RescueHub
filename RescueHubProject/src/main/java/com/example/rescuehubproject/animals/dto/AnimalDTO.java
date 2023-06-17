@@ -36,6 +36,17 @@ public class AnimalDTO {
     public AnimalDTO() {
     }
 
+    public AnimalDTO(String name, Integer age, String animalSpecies, String description, boolean needsAttention, boolean isSocialAnimal, boolean needsOutdoorSpace, boolean goodWithChildren) {
+        this.name = name;
+        this.age = age;
+        this.animalSpecies = animalSpecies;
+        this.description = description;
+        this.needsAttention = needsAttention;
+        this.isSocialAnimal = isSocialAnimal;
+        this.needsOutdoorSpace = needsOutdoorSpace;
+        GoodWithChildren = goodWithChildren;
+    }
+
     @Override
     public String toString() {
         return
