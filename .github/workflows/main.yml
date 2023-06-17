@@ -59,3 +59,17 @@ jobs:
             doc/api/*.adoc
             doc/api-documentation.adoc
             doc/api-documentation.pdf
+            
+      - name: Commit PDF file
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git checkout -b documentation-update
+          git add docs/api-documentation.pdf
+          git commit -m "Add documentation PDF" -a
+          
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: documentation-update
