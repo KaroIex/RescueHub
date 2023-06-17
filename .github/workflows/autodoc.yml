@@ -68,7 +68,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git pull origin develop
+          git pull --merge origin develop
           git add docs/api-documentation.pdf
           git commit -m "Add documentation PDF" -a
           
