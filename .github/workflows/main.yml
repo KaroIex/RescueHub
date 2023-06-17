@@ -33,7 +33,7 @@ jobs:
         run: curl http://localhost:8080/v3/api-docs -o swagger.json
       
       - name: Convert Swagger to AsciiDoc
-        run: java -jar doc/swagger2markup-cli-2.0.0-SNAPSHOT.jar convert -i swagger.json -f doc/api
+        run: java -jar docs/swagger2markup-cli-2.0.0-SNAPSHOT.jar convert -i swagger.json -f doc/api
       
       - name: Archive Swagger JSON and AsciiDoc files
         uses: actions/upload-artifact@v2
