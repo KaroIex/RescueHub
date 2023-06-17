@@ -38,10 +38,20 @@ jobs:
       - name: Convert Swagger to AsciiDoc
         run: java -jar docs/swagger2markup-cli-2.0.0-SNAPSHOT.jar convert -i swagger.json -d doc/api
       
-      - name: Archive Swagger JSON and AsciiDoc files
+      - name: Install Asciidoctor and Asciidoctor PDF
+        run: |
+          sudo apt-get install ruby-full build-essential zlib1g-dev
+          sudo gem install asciidoctor
+          sudo gem install asciidoctor-pdf --pre
+          asciidoctor-pdf --version
+
+      - name: Convert AsciiDoc to PDF
+        run: asciidoctor-pdf doc/api/*.adoc -o doc/api-documentation.pdf
+      
+      - name: Archive AsciiDoc and PDF files
         uses: actions/upload-artifact@v2
         with:
           name: API-Docs
           path: |
-            swagger.json
             doc/api/*.adoc
+            doc/api-documentation.pdf
