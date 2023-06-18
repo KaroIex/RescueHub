@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.ExpectedCount.times;
@@ -93,5 +94,29 @@ public class AnimalServiceTest {
         assertEquals(1L, resultPage.getContent().get(0).getId());
         assertEquals(2L, resultPage.getContent().get(1).getId());
 
+    }
+
+    @Test void testFindById(){
+        AnimalSpecies animalSpecies = new AnimalSpecies();
+        animalSpecies.setSpeciesName("Kot");
+        animalSpecies.setId(1L);
+
+        Animal animal = new Animal();
+        animal.setId(1L);
+        animal.setName("Test Animal");
+        animal.setAge(15);
+        animal.setDescription("This is " + animal.getName());
+        animal.setSocialAnimal(true);
+        animal.setGoodWithChildren(true);
+        animal.setNeedsAttention(false);
+        animal.setNeedsOutdoorSpace(false);
+        animal.setAnimalSpecies(animalSpecies);
+
+        when(animalRepository.findById(1L)).thenReturn(Optional.of(animal));
+        Optional<AnimalDTO> resultOptional = animalService.findById(1L);
+
+        assertTrue(resultOptional.isPresent());
+        assertEquals("Kot", resultOptional.get().getAnimalSpecies());
+        assertEquals("Test Animal", resultOptional.get().getName());
     }
 }
