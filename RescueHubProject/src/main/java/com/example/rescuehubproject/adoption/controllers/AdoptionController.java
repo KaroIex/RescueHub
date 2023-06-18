@@ -3,6 +3,7 @@ package com.example.rescuehubproject.adoption.controllers;
 import com.example.rescuehubproject.adopters.services.AdopterService;
 import com.example.rescuehubproject.adoption.dto.AdoptionDTO;
 import com.example.rescuehubproject.adoption.dto.AdoptionFormDTO;
+import com.example.rescuehubproject.adoption.dto.AdoptionStatusDTO;
 import com.example.rescuehubproject.adoption.services.AdoptionService;
 import com.example.rescuehubproject.animals.dto.AnimalDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -103,9 +104,19 @@ public class AdoptionController {
     }
 
     @PutMapping("/adopt/{id}")
-    public ResponseEntity<AdoptionStatusDTO> updateStatus(@PathVariable Long id, @RequestBody AdoptionDTO updatedAdoptionDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        adoptionService.adopt(authentication, animalId);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @Operation(summary = "Update adoption status", description = "Return object AdoptionStatusDTO.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully update status for adoption",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Map.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+    public ResponseEntity<AdoptionStatusDTO> updateStatus(@PathVariable Long id, @RequestBody AdoptionStatusDTO updatedAdoptionStatusDTO) throws NoSuchFieldException {
+        Optional<AdoptionDTO> adoptionDTO = adoptionService.findById(id);
+        if (adoptionDTO.isPresent()) {
+            AdoptionStatusDTO updatedAdoption = adoptionService.updateStatus(id, updatedAdoptionStatusDTO);
+            return ResponseEntity.ok(updatedAdoption);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
