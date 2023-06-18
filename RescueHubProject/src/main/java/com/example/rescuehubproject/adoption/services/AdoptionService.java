@@ -7,17 +7,22 @@ import com.example.rescuehubproject.adopters.exceptions.AnimalAlreadyAdoptedExce
 import com.example.rescuehubproject.adopters.exceptions.AnimalNotFoundException;
 import com.example.rescuehubproject.adopters.exceptions.UserIsNotAnAdopter;
 import com.example.rescuehubproject.adopters.exceptions.UserNotFoundException;
+import com.example.rescuehubproject.adopters.repositories.AdopterRepository;
 import com.example.rescuehubproject.adoption.dto.AdoptionDTO;
 import com.example.rescuehubproject.adoption.dto.AdoptionFormDTO;
+import com.example.rescuehubproject.adoption.dto.AdoptionStatusDTO;
 import com.example.rescuehubproject.adoption.entity.Adoption;
 import com.example.rescuehubproject.adoption.repositories.AdoptionRepository;
 import com.example.rescuehubproject.adopters.entities.Adopter;
+import com.example.rescuehubproject.adoption.util.Status;
 import com.example.rescuehubproject.animals.dto.AnimalDTO;
 import com.example.rescuehubproject.animals.entity.Animal;
+import com.example.rescuehubproject.animals.entity.AnimalSpecies;
 import com.example.rescuehubproject.animals.repositories.AnimalRepository;
 import com.example.rescuehubproject.security.UserDetailsImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -32,18 +37,20 @@ import java.util.stream.Collectors;
 public class AdoptionService {
 
     private final AdoptionRepository adoptionRepository;
+    private final AdopterRepository adopterRepository;
     private final UserRepository userRepository;
     private final AnimalRepository animalRepository;
     private final List<AnimalMatchingAlgorithm> algorithms;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public AdoptionService(AdoptionRepository adoptionRepository, UserRepository userRepository, AnimalRepository animalRepository, List<AnimalMatchingAlgorithm> algorithms, ModelMapper modelMapper) {
+    public AdoptionService(AdoptionRepository adoptionRepository, UserRepository userRepository, AnimalRepository animalRepository, List<AnimalMatchingAlgorithm> algorithms, ModelMapper modelMapper, AdopterRepository adopterRepository) {
         this.adoptionRepository = adoptionRepository;
         this.userRepository = userRepository;
         this.animalRepository = animalRepository;
         this.algorithms = algorithms;
         this.modelMapper = modelMapper;
+        this.adopterRepository = adopterRepository;
     }
 
 
@@ -61,6 +68,7 @@ public class AdoptionService {
 
     public AdoptionDTO save(AdoptionDTO adoptionDTO) {
         Adoption adoption = convertToEntity(adoptionDTO);
+        adoption.setStatus(Status.NEW);
         Adoption savedAdoption = adoptionRepository.save(adoption);
         return convertToDTO(savedAdoption);
     }
@@ -147,5 +155,62 @@ public class AdoptionService {
         int end = Math.min((start + pageable.getPageSize()), entries.size());
 
         return new PageImpl<>(entries.subList(start, end), pageable, entries.size());
+    }
+
+    public AdoptionStatusDTO updateStatus(Long id, AdoptionStatusDTO updatedAdoptionStatusDTO) throws NoSuchFieldException {
+        Optional<Adoption> exsistingAdoptionOptional = adoptionRepository.findById(id);
+
+        if(exsistingAdoptionOptional.isPresent()){
+            Adoption exsistingAdoption = exsistingAdoptionOptional.get();
+            LocalDate date = LocalDate.now();
+            exsistingAdoption.setAdoptionDate(date);
+
+            List<Adopter> adopters = adopterRepository.findAll();
+            for(Adopter adopter: adopters){
+                System.out.println(adopter.getUser().getName());
+                System.out.println(updatedAdoptionStatusDTO.getAdopterName());
+                if(Objects.equals(adopter.getUser().getName(), updatedAdoptionStatusDTO.getAdopterName())){
+                    List<Animal> animals = animalRepository.findAll();
+                    for(Animal animal: animals) {
+                        if (Objects.equals(animal.getName(), updatedAdoptionStatusDTO.getAnimalName())) {
+                            if (Objects.equals(exsistingAdoption.getStatus(), Status.NEW) && (Objects.equals(updatedAdoptionStatusDTO.getStatus(), "EXPECT"))) {
+                                exsistingAdoption.setStatus(Status.getStatus(updatedAdoptionStatusDTO.getStatus()));
+                                Adoption updatedAdoption = adoptionRepository.save(exsistingAdoption);
+                                return convertToDTOStatus(updatedAdoption);
+                            } else if (Objects.equals(exsistingAdoption.getStatus(), Status.EXPECT) && (Objects.equals(updatedAdoptionStatusDTO.getStatus(),"ACCEPT"))) {
+                                exsistingAdoption.setStatus(Status.getStatus(updatedAdoptionStatusDTO.getStatus()));
+                                Adoption updatedAdoption = adoptionRepository.save(exsistingAdoption);
+                                return convertToDTOStatus(updatedAdoption);
+                            } else if(Objects.equals(exsistingAdoption.getStatus(), Status.getStatus(updatedAdoptionStatusDTO.getStatus()))){
+                                throw new NoSuchFieldException("The status has already been set");
+                            } else if((Objects.equals(exsistingAdoption.getStatus(), Status.EXPECT) && (Objects.equals(updatedAdoptionStatusDTO.getStatus(),"NEW"))) ||
+                                    (Objects.equals(exsistingAdoption.getStatus(), Status.NEW) && (Objects.equals(updatedAdoptionStatusDTO.getStatus(),"ACCEPT"))) ||
+                                    (Objects.equals(exsistingAdoption.getStatus(), Status.ACCEPT)))
+                                throw new NoSuchFieldException("statuses can be changed in this order : NEW -> EXPECT -> ACCEPT");
+                            throw new NoSuchFieldException("Error status");
+                        }
+                    }throw new NoSuchFieldException("Error animal");
+                }
+            } throw new NoSuchFieldException("Error adopter");
+
+        }
+        throw new NoSuchFieldException("Error");
+    }
+
+    private AdoptionStatusDTO convertToDTOStatus(Adoption updatedAdoption) throws NoSuchFieldException {
+        AdoptionStatusDTO adoptionStatusDTO = new AdoptionStatusDTO(updatedAdoption.getAdopter().getUser().getName(), updatedAdoption.getAnimal().getName());
+        switch( updatedAdoption.getStatus() ){
+            case NEW:
+                adoptionStatusDTO.setStatus("NEW");
+                return adoptionStatusDTO;
+            case ACCEPT:
+                adoptionStatusDTO.setStatus("ACCEPT");
+                return adoptionStatusDTO;
+            case EXPECT:
+                adoptionStatusDTO.setStatus("EXPECT");
+                return adoptionStatusDTO;
+            default:
+                throw new NoSuchFieldException("Error status");
+        }
     }
 }

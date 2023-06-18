@@ -1,7 +1,7 @@
 package com.example.rescuehubproject.adoption.entity;
 
-import com.example.rescuehubproject.accounts.entity.User;
 import com.example.rescuehubproject.adopters.entities.Adopter;
+import com.example.rescuehubproject.adoption.util.Status;
 import com.example.rescuehubproject.animals.entity.Animal;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -30,4 +30,8 @@ public class Adoption {
     @ManyToOne
     @JoinColumn(name = "id_animal", nullable = false) // relacja wiele-do-jednego z tabelą Animals
     private Animal animal;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="status", nullable = false)
+    private Status status;
 }
