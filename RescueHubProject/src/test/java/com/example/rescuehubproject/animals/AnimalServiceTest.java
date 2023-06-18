@@ -26,8 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.ExpectedCount.times;
@@ -96,7 +95,7 @@ public class AnimalServiceTest {
 
     }
 
-    @Test void testFindById(){
+    @Test void testFindById() throws NoSuchFieldException {
         AnimalSpecies animalSpecies = new AnimalSpecies();
         animalSpecies.setSpeciesName("Kot");
         animalSpecies.setId(1L);
@@ -119,4 +118,13 @@ public class AnimalServiceTest {
         assertEquals("Kot", resultOptional.get().getAnimalSpecies());
         assertEquals("Test Animal", resultOptional.get().getName());
     }
+
+    @Test
+    void testFindById_IdNotExist() throws NoSuchFieldException {
+        when(animalRepository.findById(1L)).thenReturn(Optional.empty());
+        Optional<AnimalDTO> resultOptional = animalService.findById(1L);
+        assertNull(resultOptional);
+    }
+
+    
 }

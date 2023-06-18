@@ -65,9 +65,11 @@ public class AnimalService {
         };
     }
     @Transactional
-    public Optional<AnimalDTO> findById(Long id){
+    public Optional<AnimalDTO> findById(Long id) throws NoSuchFieldException {
         Optional<Animal> animal = animalRepository.findById(id);
-        return animal.map(this::convertToDTO);
+        if(animal.isPresent())
+         return animal.map(this::convertToDTO);
+        return null;
     }
 
     @Transactional
