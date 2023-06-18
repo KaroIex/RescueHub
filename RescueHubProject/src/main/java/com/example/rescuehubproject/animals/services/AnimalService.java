@@ -87,10 +87,10 @@ public class AnimalService {
         for(AnimalSpecies as: animalSpecies){
             if (Objects.equals(as.getSpeciesName(),animalDTO.getAnimalSpecies())) {
                 animal.setAnimalSpecies(as);
-                as.addAnimal(animal);
+               // as.addAnimal(animal);
                 Animal savedAnimal = animalRepository.save(animal);
                 return convertToDTO(savedAnimal);
-            }
+            } return null;
         }
         throw new NoSuchFieldException("AnimalSpecies with name " + animalDTO.getAnimalSpecies() + " not found");
     }
@@ -109,7 +109,7 @@ public class AnimalService {
         animalDTO.setSocialAnimal(animal.isSocialAnimal());
         animalDTO.setNeedsAttention(animal.isNeedsAttention());
         animalDTO.setNeedsOutdoorSpace(animal.isNeedsOutdoorSpace());
-        animal.setGoodWithChildren(animalDTO.isGoodWithChildren());
+        animalDTO.setGoodWithChildren(animal.isGoodWithChildren());
         return animalDTO;
     }
 

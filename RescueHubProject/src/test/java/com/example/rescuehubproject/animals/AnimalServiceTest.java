@@ -23,14 +23,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.client.ExpectedCount.times;
-import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 public class AnimalServiceTest {
@@ -126,5 +126,38 @@ public class AnimalServiceTest {
         assertNull(resultOptional);
     }
 
+    @Test
+    public void testSave() throws NoSuchFieldException{
+        AnimalSpecies animalSpecies = new AnimalSpecies();
+        animalSpecies.setSpeciesName("Kot");
+
+        Animal animal = new Animal();
+        animal.setName("Test Animal");
+        animal.setAnimalSpecies(animalSpecies);
+
+        when(animalRepository.save(any(Animal.class))).thenAnswer(invocation -> {
+            Animal savedAnimal = invocation.getArgument(0);
+            savedAnimal.setId(1L); // Assign an ID to the saved animal
+            return savedAnimal;
+        });
+        when(animalSpeciesRepository.findAll()).thenReturn(Collections.singletonList(animalSpecies));
+
+        AnimalDTO animalDTO = new AnimalDTO();
+        animalDTO.setName("Test Animal");
+        animalDTO.setAge(15);
+        animalDTO.setDescription("This is Test Animal" );
+        animalDTO.setSocialAnimal(true);
+        animalDTO.setGoodWithChildren(true);
+        animalDTO.setNeedsAttention(false);
+        animalDTO.setNeedsOutdoorSpace(false);
+        animalDTO.setAnimalSpecies("Kot");
+
+        AnimalDTO resultDTO = animalService.save(animalDTO);
+
+        assertEquals("Test Animal", resultDTO.getName());
+        assertEquals("Kot", resultDTO.getAnimalSpecies());
+    }
+
     
+
 }
