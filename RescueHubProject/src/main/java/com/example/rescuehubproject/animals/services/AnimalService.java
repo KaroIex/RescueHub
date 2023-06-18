@@ -44,7 +44,7 @@ public class AnimalService {
 
     private AnimalsWithIdDTO convertToDTOWithId(Animal animal) {
         AnimalsWithIdDTO animalsWithIdDTO = new AnimalsWithIdDTO();
-        animalsWithIdDTO.setId(animalsWithIdDTO.getId());
+        animalsWithIdDTO.setId(animal.getId());
         animalsWithIdDTO.setName(animal.getName());
         animalsWithIdDTO.setAnimalSpecies(animal.getAnimalSpecies().getSpeciesName());
         animalsWithIdDTO.setAge(animal.getAge());

@@ -18,4 +18,11 @@ public class AdoptionDTO {
     @Schema(description = "Animal's name", example = "Bobby")
     private String animalName;
 
+    public AdoptionDTO(String adopterName, String animalName) {
+        this.adopterName = adopterName;
+        this.animalName = animalName;
+    }
+
+    public AdoptionDTO() {
+    }
 }

@@ -3,6 +3,11 @@ package com.example.rescuehubproject.setup;
 import com.example.rescuehubproject.accounts.entity.User;
 import com.example.rescuehubproject.accounts.repositories.UserRepository;
 import com.example.rescuehubproject.accounts.util.Role;
+import com.example.rescuehubproject.adopters.entities.Adopter;
+import com.example.rescuehubproject.adopters.repositories.AdopterRepository;
+import com.example.rescuehubproject.adoption.entity.Adoption;
+import com.example.rescuehubproject.adoption.repositories.AdoptionRepository;
+import com.example.rescuehubproject.adoption.util.Status;
 import com.example.rescuehubproject.animals.entity.Animal;
 import com.example.rescuehubproject.animals.entity.AnimalSpecies;
 import com.example.rescuehubproject.animals.repositories.AnimalRepository;
@@ -11,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.util.Optional;
 import java.util.Random;
 
 @Component
@@ -33,6 +40,10 @@ public class DatabaseDataInitializer implements DataInitializer {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private AdopterRepository adopterRepository;
+    @Autowired
+    private AdoptionRepository adoptionRepository;
+    @Autowired
     private PasswordEncoder encoder;
 
     @Override
@@ -42,6 +53,7 @@ public class DatabaseDataInitializer implements DataInitializer {
         initializeUsers(users, Role.ROLE_USER);
         initializeAnimalsSpecies(animalSpecies);
         initializeAnimals(animalNames);
+        initializeAdoption();
 
     }
 
@@ -83,6 +95,23 @@ public class DatabaseDataInitializer implements DataInitializer {
                 animal.setAnimalSpecies(species);
                 animalRepository.save(animal);
             }
+        }
+    }
+
+    private void initializeAdoption (){
+       // Random random = new Random();
+        LocalDate date = LocalDate.now();
+        Adoption adoption = new Adoption();
+        Animal animal = animalRepository.findById((long) 2).orElseThrow();
+        Adopter adopter = adopterRepository.findById((long) 2).orElseThrow();
+
+        adoption.setAdoptionDate(date);
+        adoption.setStatus(Status.NEW);
+        if(animal != null && adopter != null){
+            adoption.setAdopter(adopter);
+            adoption.setAnimal(animal);
+            adoptionRepository.save(adoption);
+            System.out.println(adoption.getAdopter().getUser().getName());
         }
     }
 
