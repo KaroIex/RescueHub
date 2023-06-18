@@ -101,4 +101,11 @@ public class AdoptionController {
         var result = adoptionService.matchAdopterToAnimal(form, pageable).getContent();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PutMapping("/adopt/{id}")
+    public ResponseEntity<AdoptionStatusDTO> updateStatus(@PathVariable Long id, @RequestBody AdoptionDTO updatedAdoptionDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        adoptionService.adopt(authentication, animalId);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }

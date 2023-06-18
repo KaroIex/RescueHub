@@ -12,6 +12,7 @@ import com.example.rescuehubproject.adoption.dto.AdoptionFormDTO;
 import com.example.rescuehubproject.adoption.entity.Adoption;
 import com.example.rescuehubproject.adoption.repositories.AdoptionRepository;
 import com.example.rescuehubproject.adopters.entities.Adopter;
+import com.example.rescuehubproject.adoption.util.Status;
 import com.example.rescuehubproject.animals.dto.AnimalDTO;
 import com.example.rescuehubproject.animals.entity.Animal;
 import com.example.rescuehubproject.animals.repositories.AnimalRepository;
@@ -61,6 +62,7 @@ public class AdoptionService {
 
     public AdoptionDTO save(AdoptionDTO adoptionDTO) {
         Adoption adoption = convertToEntity(adoptionDTO);
+        adoption.setStatus(Status.NEW);
         Adoption savedAdoption = adoptionRepository.save(adoption);
         return convertToDTO(savedAdoption);
     }

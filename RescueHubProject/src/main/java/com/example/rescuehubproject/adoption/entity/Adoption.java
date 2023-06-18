@@ -1,6 +1,5 @@
 package com.example.rescuehubproject.adoption.entity;
 
-import com.example.rescuehubproject.accounts.entity.User;
 import com.example.rescuehubproject.adopters.entities.Adopter;
 import com.example.rescuehubproject.adoption.util.Status;
 import com.example.rescuehubproject.animals.entity.Animal;
@@ -33,6 +32,6 @@ public class Adoption {
     private Animal animal;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="status")
+    @Column(name="status", nullable = false)
     private Status status;
 }
