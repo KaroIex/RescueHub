@@ -12,6 +12,7 @@ import com.example.rescuehubproject.animals.services.AnimalService;
 import com.example.rescuehubproject.animals.services.AnimalSpeciesService;
 import com.example.rescuehubproject.setup.DataInitializer;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,6 +35,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.client.ExpectedCount.times;
 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class AnimalServiceTest {
 
     @Autowired
@@ -95,7 +98,8 @@ public class AnimalServiceTest {
 
     }
 
-    @Test void testFindById() throws NoSuchFieldException {
+    @Test
+    void testFindById() throws NoSuchFieldException {
         AnimalSpecies animalSpecies = new AnimalSpecies();
         animalSpecies.setSpeciesName("Kot");
         animalSpecies.setId(1L);
@@ -158,11 +162,23 @@ public class AnimalServiceTest {
         assertEquals("Kot", resultDTO.getAnimalSpecies());
     }
 
-    @Test void testDeleteById(){
+    @Test
+    void testDeleteById(){
         animalService.deleteById(1L);
     }
 
+    @Test
+    public void testDeleteById_EmptyDatabase() {
+        Long animalId = 1L;
 
+        when(animalRepository.findById(animalId)).thenReturn(Optional.empty());
+        animalService.deleteById(animalId);
 
+        ArgumentCaptor<Long> idCaptor = ArgumentCaptor.forClass(Long.class);
+        verify(animalRepository).deleteById(idCaptor.capture());
+
+        Long capturedId = idCaptor.getValue();
+        assertEquals(animalId, capturedId);
+    }
 
 }
