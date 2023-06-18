@@ -158,6 +158,11 @@ public class AnimalServiceTest {
         assertEquals("Kot", resultDTO.getAnimalSpecies());
     }
 
-    
+    @Test void testDeleteById(){
+        animalService.deleteById(1L);
+    }
+
+
+
 
 }
