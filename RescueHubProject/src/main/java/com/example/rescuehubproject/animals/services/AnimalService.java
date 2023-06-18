@@ -29,7 +29,7 @@ public class AnimalService {
     private AnimalSpeciesRepository animalSpeciesRepository;
 
     @Autowired
-    public AnimalService(AnimalRepository animalRepository) {
+    public AnimalService(AnimalRepository animalRepository,AnimalSpeciesRepository animalSpeciesRepository ) {
 
         this.animalRepository = animalRepository;
 
@@ -101,16 +101,17 @@ public class AnimalService {
     }
 
     private AnimalDTO convertToDTO(Animal animal) {
-        AnimalDTO animalDTO = new AnimalDTO();
-        animalDTO.setName(animal.getName());
-        animalDTO.setAge(animal.getAge());
-        animalDTO.setAnimalSpecies(animal.getAnimalSpecies().getSpeciesName());
-        animalDTO.setDescription(animal.getDescription());
-        animalDTO.setSocialAnimal(animal.isSocialAnimal());
-        animalDTO.setNeedsAttention(animal.isNeedsAttention());
-        animalDTO.setNeedsOutdoorSpace(animal.isNeedsOutdoorSpace());
-        animalDTO.setGoodWithChildren(animal.isGoodWithChildren());
-        return animalDTO;
+            AnimalDTO animalDTO = new AnimalDTO();
+            animalDTO.setName(animal.getName());
+            animalDTO.setAge(animal.getAge());
+            animalDTO.setAnimalSpecies(animal.getAnimalSpecies().getSpeciesName());
+            animalDTO.setDescription(animal.getDescription());
+            animalDTO.setSocialAnimal(animal.isSocialAnimal());
+            animalDTO.setNeedsAttention(animal.isNeedsAttention());
+            animalDTO.setNeedsOutdoorSpace(animal.isNeedsOutdoorSpace());
+            animalDTO.setGoodWithChildren(animal.isGoodWithChildren());
+            return animalDTO;
+
     }
 
     private Animal convertToEntity(AnimalDTO animalDTO) {
@@ -142,8 +143,8 @@ public class AnimalService {
             List<AnimalSpecies> animalSpecies = animalSpeciesRepository.findAll();
             for (AnimalSpecies as : animalSpecies) {
                 if (Objects.equals(as.getSpeciesName(), updatedAnimalDTO.getAnimalSpecies())) {
-                    as.removeAnimal(exsistingAnimalOld);
-                    as.addAnimal(exsistingAnimal);
+                   // as.removeAnimal(exsistingAnimalOld);
+                   // as.addAnimal(exsistingAnimal);
                     exsistingAnimal.setAnimalSpecies(as);
 
                     Animal updatedAnimal = animalRepository.save(exsistingAnimal);

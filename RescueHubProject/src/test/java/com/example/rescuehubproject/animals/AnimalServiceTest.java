@@ -180,5 +180,4 @@ public class AnimalServiceTest {
         Long capturedId = idCaptor.getValue();
         assertEquals(animalId, capturedId);
     }
-
 }
