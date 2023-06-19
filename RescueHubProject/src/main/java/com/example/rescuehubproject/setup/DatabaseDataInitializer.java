@@ -48,8 +48,8 @@ public class DatabaseDataInitializer implements DataInitializer {
 
     @Override
     public void initializeData() {
-        initializeUsers(admins, Role.ROLE_ADMINISTRATOR);
-        initializeUsers(adopters, Role.ROLE_ADOPTER);
+        initializeUsers(admins, Role.ADMINISTRATOR); // sprawdzic czy wszystko dziala
+        initializeUsers(adopters, Role.ADOPTER);
         initializeUsers(users, Role.ROLE_USER);
         initializeAnimalsSpecies(animalSpecies);
         initializeAnimals(animalNames);
@@ -70,7 +70,7 @@ public class DatabaseDataInitializer implements DataInitializer {
             User user = new User();
             user.setName(name);
             user.setLastname(name);
-            user.setEmail(name + "@example.com");
+            user.setEmail(name + "@test.com");
             user.setPassword(encoder.encode("!QAZXSW@#EDCVFR$"));
             user.addRole(role);
             userRepository.save(user);
