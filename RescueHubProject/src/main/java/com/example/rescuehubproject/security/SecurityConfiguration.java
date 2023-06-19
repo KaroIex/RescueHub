@@ -36,6 +36,11 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter(jwtUtils, userDetailsService);
     }
@@ -104,18 +109,12 @@ public class SecurityConfiguration {
                         .anyRequest().permitAll()
 
 
-
                 )
                 .userDetailsService(userDetailsService)
                 .exceptionHandling().accessDeniedHandler(getAccessDeniedHandler())
                 .and()
                 .httpBasic(Customizer.withDefaults())
                 .build();
-    }
-
-    @Bean
-    public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
