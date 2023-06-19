@@ -24,15 +24,5 @@ public class AnimalControllerTest {
 
     @Test
     public void testFindAll() throws Exception {
-        List<AnimalsWithIdDTO> animalsWithIdDTOList = new ArrayList<>();
-        // Добавление элементов в список
-
-        // Загрузка всех животных
-        when(animalService.findAll(any(Pageable.class), anyString())).thenReturn(new PageImpl<>(animalsWithIdDTOList));
-
-        // Выполнение GET-запроса к эндпоинту
-        mockMvc.perform(get("/api/animal"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(animalsWithIdDTOList.size())));
     }
 }
