@@ -28,11 +28,9 @@ public class AnimalSpecies {
     private String speciesName;
 
     @OneToMany(mappedBy = "animalSpecies", cascade = CascadeType.ALL) // relacja jeden-do-wielu z tabelą Animals
-    private List<Animal> animals;
+    private List<Animal> animals = new ArrayList<>();
 
     public void addAnimal(Animal animal){
-        if(animals.isEmpty())
-            animals = new ArrayList<>();
         animals.add(animal);
     }
 
