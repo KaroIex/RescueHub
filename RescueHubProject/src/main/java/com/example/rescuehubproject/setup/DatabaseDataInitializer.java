@@ -113,7 +113,6 @@ public class DatabaseDataInitializer implements DataInitializer {
             adoption.setAdopter(adopter);
             adoption.setAnimal(animal);
             adoptionRepository.save(adoption);
-            System.out.println(adoption.getAdopter().getUser().getName());
         }
     }
 

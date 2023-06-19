@@ -87,12 +87,13 @@ public class AnimalService {
         for(AnimalSpecies as: animalSpecies){
             if (Objects.equals(as.getSpeciesName(),animalDTO.getAnimalSpecies())) {
                 animal.setAnimalSpecies(as);
-               // as.addAnimal(animal);
+                as.addAnimal(animal);
                 Animal savedAnimal = animalRepository.save(animal);
                 return convertToDTO(savedAnimal);
-            } return null;
+            }
         }
-        throw new NoSuchFieldException("AnimalSpecies with name " + animalDTO.getAnimalSpecies() + " not found");
+        return null;
+        //throw new NoSuchFieldException("AnimalSpecies with name " + animalDTO.getAnimalSpecies() + " not found");
     }
 
     @Transactional
@@ -143,8 +144,8 @@ public class AnimalService {
             List<AnimalSpecies> animalSpecies = animalSpeciesRepository.findAll();
             for (AnimalSpecies as : animalSpecies) {
                 if (Objects.equals(as.getSpeciesName(), updatedAnimalDTO.getAnimalSpecies())) {
-                   // as.removeAnimal(exsistingAnimalOld);
-                   // as.addAnimal(exsistingAnimal);
+                    as.removeAnimal(exsistingAnimalOld);
+                    as.addAnimal(exsistingAnimal);
                     exsistingAnimal.setAnimalSpecies(as);
 
                     Animal updatedAnimal = animalRepository.save(exsistingAnimal);
