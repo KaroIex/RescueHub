@@ -70,7 +70,7 @@ public class DatabaseDataInitializer implements DataInitializer {
             User user = new User();
             user.setName(name);
             user.setLastname(name);
-            user.setEmail(name + "@example.com");
+            user.setEmail(name + "@test.com");
             user.setPassword(encoder.encode("!QAZXSW@#EDCVFR$"));
             user.addRole(role);
             userRepository.save(user);

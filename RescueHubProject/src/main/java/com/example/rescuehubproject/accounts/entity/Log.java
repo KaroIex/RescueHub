@@ -113,12 +113,14 @@ public class Log {
         }
 
         public Log build() {
+
+            log.setDate(new Date());
+
             if (log.getDate() == null || log.getAction() == null || log.getSubject() == null
                     || log.getObject() == null || log.getPath() == null) {
                 throw new IllegalStateException("All fields must be set before building Log object.");
             }
 
-            log.setDate(new Date());
             return log;
         }
     }

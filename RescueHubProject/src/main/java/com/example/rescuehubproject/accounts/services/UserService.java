@@ -29,6 +29,7 @@ public class UserService { // service for user registration
 
     private static final Role ADMINISTRATOR = Role.ROLE_ADMINISTRATOR;
     private static final Role USER = Role.ROLE_USER;
+    private static final Role ADOPTER = Role.ROLE_ADOPTER;
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder encoder, LogService logService) {
@@ -52,8 +53,8 @@ public class UserService { // service for user registration
         List<User> users = userRepository.findAll();
 
         Role role;
-        if (users.isEmpty()) {
-            role = ADMINISTRATOR; // if there is no users in db, then first user will be admin
+        if (users.isEmpty()){
+            role = Role.ADMINISTRATOR; // if there is no users in db, then first user will be admin
         } else {
             role = Role.ADOPTER;
         }

@@ -29,5 +29,5 @@ Changelog
 ## 15.06 (K) Dodanie algorytmu dopasowania krzystając ze wzorca strategia, umożliwienie adopcji, uniemożliwienie modyfikacji zasobów innych użytkowników z rolą adopter, dodanie seedera dla bazy danych i przygotowanie przykladowych danych, poprawa i refaktor adoptera, dodanie środowiska deweloperskiego dla cd i pewnie coś jeszcze ale nie pamiętam.
 ## 16.06(ANG) Paginacja dla Animals, dodanie adnotacji dokumentacyjncyh do swaggera dla Animals
 ## 18.06(ANG) Dodanie funkcji zmieniania statusu dla Adoptions, poprawa AnimalController
-
+## 18.06(ANG) Dodanie Testów dla AnimalService
 

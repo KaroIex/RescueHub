@@ -67,7 +67,7 @@ public class AnimalController {
                             schema = @Schema(implementation = AnimalDTO.class)) }),
             @ApiResponse(responseCode = "404", description = "Animal not found",
                     content = @Content) })
-    public ResponseEntity<AnimalDTO> findById(@PathVariable Long id){
+    public ResponseEntity<AnimalDTO> findById(@PathVariable Long id) throws NoSuchFieldException {
         Optional<AnimalDTO> animalDTO = animalService.findById(id);
         return animalDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
