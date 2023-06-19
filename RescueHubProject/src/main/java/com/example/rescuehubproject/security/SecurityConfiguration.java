@@ -70,14 +70,15 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/actuator/shutdown").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/signup/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/changepass/**").hasAnyRole(ADMIN, USER, ADOPTER)
+
+                        .requestMatchers(HttpMethod.POST, "/api/auth/signup").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/changepass").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/admin/user/**").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.PUT, "/api/admin/user/role/**").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.GET, "/api/admin/user/**").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.GET, "/api/admin/logs").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.PUT, "/api/empl/authenticated").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/api/empl/protected").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/empl/protected").hasRole(ADOPTER)
 
                         .requestMatchers(HttpMethod.GET, "/api/auth/adopter").hasRole(ADOPTER)
 
