@@ -17,9 +17,9 @@ public enum Role {
 
     public static Role getRole(String role) {
         return switch (role) {
-            case "USER" -> ROLE_USER;
-            case "ADOPTER" -> ROLE_ADOPTER;
-            case "ADMINISTRATOR" -> ROLE_ADMINISTRATOR;
+            case "USER" -> USER;
+            case "ADOPTER" -> ADOPTER;
+            case "ADMINISTRATOR" -> ADMINISTRATOR;
             default -> throw new RoleNotFoundException("Role not found!");
         };
     }
