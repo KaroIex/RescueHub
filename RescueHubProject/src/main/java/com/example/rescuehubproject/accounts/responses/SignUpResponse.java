@@ -2,6 +2,7 @@ package com.example.rescuehubproject.accounts.responses;
 
 import com.example.rescuehubproject.accounts.entity.User;
 import com.example.rescuehubproject.accounts.util.Role;
+
 import java.util.List;
 
 public record SignUpResponse(
