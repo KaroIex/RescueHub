@@ -29,7 +29,7 @@ public class AnimalService {
     private AnimalSpeciesRepository animalSpeciesRepository;
 
     @Autowired
-    public AnimalService(AnimalRepository animalRepository) {
+    public AnimalService(AnimalRepository animalRepository,AnimalSpeciesRepository animalSpeciesRepository ) {
 
         this.animalRepository = animalRepository;
 
@@ -65,9 +65,11 @@ public class AnimalService {
         };
     }
     @Transactional
-    public Optional<AnimalDTO> findById(Long id){
+    public Optional<AnimalDTO> findById(Long id) throws NoSuchFieldException {
         Optional<Animal> animal = animalRepository.findById(id);
-        return animal.map(this::convertToDTO);
+        if(animal.isPresent())
+         return animal.map(this::convertToDTO);
+        return null;
     }
 
     @Transactional
@@ -85,10 +87,10 @@ public class AnimalService {
         for(AnimalSpecies as: animalSpecies){
             if (Objects.equals(as.getSpeciesName(),animalDTO.getAnimalSpecies())) {
                 animal.setAnimalSpecies(as);
-                as.addAnimal(animal);
+               // as.addAnimal(animal);
                 Animal savedAnimal = animalRepository.save(animal);
                 return convertToDTO(savedAnimal);
-            }
+            } return null;
         }
         throw new NoSuchFieldException("AnimalSpecies with name " + animalDTO.getAnimalSpecies() + " not found");
     }
@@ -99,16 +101,17 @@ public class AnimalService {
     }
 
     private AnimalDTO convertToDTO(Animal animal) {
-        AnimalDTO animalDTO = new AnimalDTO();
-        animalDTO.setName(animal.getName());
-        animalDTO.setAge(animal.getAge());
-        animalDTO.setAnimalSpecies(animal.getAnimalSpecies().getSpeciesName());
-        animalDTO.setDescription(animal.getDescription());
-        animalDTO.setSocialAnimal(animal.isSocialAnimal());
-        animalDTO.setNeedsAttention(animal.isNeedsAttention());
-        animalDTO.setNeedsOutdoorSpace(animal.isNeedsOutdoorSpace());
-        animal.setGoodWithChildren(animalDTO.isGoodWithChildren());
-        return animalDTO;
+            AnimalDTO animalDTO = new AnimalDTO();
+            animalDTO.setName(animal.getName());
+            animalDTO.setAge(animal.getAge());
+            animalDTO.setAnimalSpecies(animal.getAnimalSpecies().getSpeciesName());
+            animalDTO.setDescription(animal.getDescription());
+            animalDTO.setSocialAnimal(animal.isSocialAnimal());
+            animalDTO.setNeedsAttention(animal.isNeedsAttention());
+            animalDTO.setNeedsOutdoorSpace(animal.isNeedsOutdoorSpace());
+            animalDTO.setGoodWithChildren(animal.isGoodWithChildren());
+            return animalDTO;
+
     }
 
     private Animal convertToEntity(AnimalDTO animalDTO) {
@@ -140,8 +143,8 @@ public class AnimalService {
             List<AnimalSpecies> animalSpecies = animalSpeciesRepository.findAll();
             for (AnimalSpecies as : animalSpecies) {
                 if (Objects.equals(as.getSpeciesName(), updatedAnimalDTO.getAnimalSpecies())) {
-                    as.removeAnimal(exsistingAnimalOld);
-                    as.addAnimal(exsistingAnimal);
+                   // as.removeAnimal(exsistingAnimalOld);
+                   // as.addAnimal(exsistingAnimal);
                     exsistingAnimal.setAnimalSpecies(as);
 
                     Animal updatedAnimal = animalRepository.save(exsistingAnimal);
