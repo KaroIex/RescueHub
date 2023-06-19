@@ -22,7 +22,4 @@ public class AnimalControllerTest {
     @MockBean
     private AnimalService animalService;
 
-    @Test
-    public void testFindAll() throws Exception {
-    }
 }
