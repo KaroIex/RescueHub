@@ -1955,3 +1955,7 @@ Database is already closed (to disable automatic closing at VM shutdown, add ";D
 	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
 	at org.springframework.boot.SpringApplicationShutdownHook.run(SpringApplicationShutdownHook.java:108)
 	at java.base/java.lang.Thread.run(Thread.java:1589)
+2023-06-19 18:19:47 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "[*]PERSON"; oczekiwano "PREPARE"
+Syntax error in SQL statement "[*]PERSON"; expected "PREPARE"; SQL statement:
+PERSON [42001-214]

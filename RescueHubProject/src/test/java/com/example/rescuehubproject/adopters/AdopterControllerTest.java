@@ -11,6 +11,7 @@ import com.example.rescuehubproject.setup.DataInitializer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,6 +33,9 @@ public class AdopterControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    ModelMapper modelMapper;
 
     @MockBean
     private AdopterService adopterService;

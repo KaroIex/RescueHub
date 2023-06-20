@@ -35,26 +35,26 @@ public class AnimalController {
     @Operation(summary = "Find all animals", description = "Returns a list of AnimalsWithIdDTO objects")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list of animals",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AnimalDTO.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AnimalDTO.class))}),
             @ApiResponse(responseCode = "500", description = "Internal server error",
-                    content = @Content) })
+                    content = @Content)})
     public ResponseEntity<List<AnimalsWithIdDTO>> findAll(
             @Parameter(description = "Page number, starting from 0")
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @Parameter(description = "Number of elements per page")
             @RequestParam(name = "size", required = false, defaultValue = "10") int size,
             @Parameter(description = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
-            @RequestParam(name = "sort", required = false, defaultValue= "animalSpecies") String sortBy,
+            @RequestParam(name = "sort", required = false, defaultValue = "animalSpecies") String sortBy,
             @Parameter(description = "Sorting order in the format: asc|desc. Default sort order is ascending.")
             @RequestParam(name = "direction", required = false, defaultValue = "ASC") String direction,
             @Parameter(description = "Filter criteria in the format: property[.operation]:value. Example: name.eq=Zoe")
             @RequestParam(name = "filter", required = false, defaultValue = "") String filter) {
-        try{
+        try {
             Pageable pageable = PageRequest.of(page, size, Sort.Direction.fromString(direction), sortBy);
             Page<AnimalsWithIdDTO> animalsWithIdDTOPage = animalService.findAll(pageable, filter);
             return new ResponseEntity<>(animalsWithIdDTOPage.getContent(), HttpStatus.OK);
-        } catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -63,10 +63,10 @@ public class AnimalController {
     @Operation(summary = "Find animal by ID", description = "Returns an AnimalDTO object")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved the animal",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AnimalDTO.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AnimalDTO.class))}),
             @ApiResponse(responseCode = "404", description = "Animal not found",
-                    content = @Content) })
+                    content = @Content)})
     public ResponseEntity<AnimalDTO> findById(@PathVariable Long id) throws NoSuchFieldException {
         Optional<AnimalDTO> animalDTO = animalService.findById(id);
         return animalDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -77,10 +77,10 @@ public class AnimalController {
     @Operation(summary = "Create a new animal", description = "Saves a new AnimalDTO object")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully created the animal",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AnimalDTO.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AnimalDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid input",
-                    content = @Content) })
+                    content = @Content)})
     public AnimalDTO save(@RequestBody AnimalDTO animalDTO) throws NoSuchFieldException {
         return animalService.save(animalDTO);
     }
@@ -89,16 +89,16 @@ public class AnimalController {
     @Operation(summary = "Update animal", description = "Updates an existing AnimalDTO object")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully updated the animal",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AnimalDTO.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AnimalDTO.class))}),
             @ApiResponse(responseCode = "404", description = "Animal not found",
-                    content = @Content) })
+                    content = @Content)})
     public ResponseEntity<AnimalDTO> update(@PathVariable Long id, @RequestBody AnimalDTO updatedAnimalDTO) throws NoSuchFieldException {
         Optional<AnimalDTO> animalDTO = animalService.findById(id);
-        if(animalDTO.isPresent()) {
+        if (animalDTO.isPresent()) {
             AnimalDTO updatedAnimal = animalService.update(id, updatedAnimalDTO);
             return ResponseEntity.ok(updatedAnimal);
-        } else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
@@ -109,13 +109,13 @@ public class AnimalController {
             @ApiResponse(responseCode = "204", description = "Successfully deleted the animal",
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Animal not found",
-                    content = @Content) })
+                    content = @Content)})
     public ResponseEntity<Void> delete(@PathVariable Long id) throws NoSuchFieldException {
         Optional<AnimalDTO> animalDTO = animalService.findById(id);
-        if(animalDTO.isPresent()){
+        if (animalDTO.isPresent()) {
             animalService.deleteById(id);
             return ResponseEntity.noContent().build();
-        }else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }

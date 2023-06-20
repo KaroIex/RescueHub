@@ -1,7 +1,6 @@
 package com.example.rescuehubproject.animals.services;
 
 import com.example.rescuehubproject.animals.dto.AnimalDTO;
-import com.example.rescuehubproject.animals.dto.AnimalSpeciesWithIdDTO;
 import com.example.rescuehubproject.animals.dto.AnimalsWithIdDTO;
 import com.example.rescuehubproject.animals.entity.Animal;
 import com.example.rescuehubproject.animals.entity.AnimalSpecies;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AnimalService {
@@ -29,14 +27,14 @@ public class AnimalService {
     private AnimalSpeciesRepository animalSpeciesRepository;
 
     @Autowired
-    public AnimalService(AnimalRepository animalRepository,AnimalSpeciesRepository animalSpeciesRepository ) {
+    public AnimalService(AnimalRepository animalRepository, AnimalSpeciesRepository animalSpeciesRepository) {
 
         this.animalRepository = animalRepository;
 
         this.animalSpeciesRepository = animalSpeciesRepository;
     }
 
-    public Page<AnimalsWithIdDTO> findAll(Pageable pageable, String filter){
+    public Page<AnimalsWithIdDTO> findAll(Pageable pageable, String filter) {
         Specification<Animal> spec = createSpecification(filter);
         return animalRepository.findAll(spec, pageable)
                 .map(this::convertToDTOWithId);
@@ -55,6 +53,7 @@ public class AnimalService {
         animalsWithIdDTO.setNeedsOutdoorSpace(animal.isNeedsOutdoorSpace());
         return animalsWithIdDTO;
     }
+
     private Specification<Animal> createSpecification(String filter) {
         return (root, query, criteriaBuilder) -> {
             if (filter == null || filter.isEmpty()) {
@@ -64,11 +63,12 @@ public class AnimalService {
             return criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + filter.toLowerCase() + "%");
         };
     }
+
     @Transactional
     public Optional<AnimalDTO> findById(Long id) throws NoSuchFieldException {
         Optional<Animal> animal = animalRepository.findById(id);
-        if(animal.isPresent())
-         return animal.map(this::convertToDTO);
+        if (animal.isPresent())
+            return animal.map(this::convertToDTO);
         return null;
     }
 
@@ -84,33 +84,34 @@ public class AnimalService {
         animal.setGoodWithChildren(animalDTO.isGoodWithChildren());
 
         List<AnimalSpecies> animalSpecies = animalSpeciesRepository.findAll();
-        for(AnimalSpecies as: animalSpecies){
-            if (Objects.equals(as.getSpeciesName(),animalDTO.getAnimalSpecies())) {
+        for (AnimalSpecies as : animalSpecies) {
+            if (Objects.equals(as.getSpeciesName(), animalDTO.getAnimalSpecies())) {
                 animal.setAnimalSpecies(as);
-               // as.addAnimal(animal);
+                as.addAnimal(animal);
                 Animal savedAnimal = animalRepository.save(animal);
                 return convertToDTO(savedAnimal);
-            } return null;
+            }
         }
         throw new NoSuchFieldException("AnimalSpecies with name " + animalDTO.getAnimalSpecies() + " not found");
+      //  return null;
     }
 
     @Transactional
-    public void deleteById(Long id){
+    public void deleteById(Long id) {
         animalRepository.deleteById(id);
     }
 
     private AnimalDTO convertToDTO(Animal animal) {
-            AnimalDTO animalDTO = new AnimalDTO();
-            animalDTO.setName(animal.getName());
-            animalDTO.setAge(animal.getAge());
-            animalDTO.setAnimalSpecies(animal.getAnimalSpecies().getSpeciesName());
-            animalDTO.setDescription(animal.getDescription());
-            animalDTO.setSocialAnimal(animal.isSocialAnimal());
-            animalDTO.setNeedsAttention(animal.isNeedsAttention());
-            animalDTO.setNeedsOutdoorSpace(animal.isNeedsOutdoorSpace());
-            animalDTO.setGoodWithChildren(animal.isGoodWithChildren());
-            return animalDTO;
+        AnimalDTO animalDTO = new AnimalDTO();
+        animalDTO.setName(animal.getName());
+        animalDTO.setAge(animal.getAge());
+        animalDTO.setAnimalSpecies(animal.getAnimalSpecies().getSpeciesName());
+        animalDTO.setDescription(animal.getDescription());
+        animalDTO.setSocialAnimal(animal.isSocialAnimal());
+        animalDTO.setNeedsAttention(animal.isNeedsAttention());
+        animalDTO.setNeedsOutdoorSpace(animal.isNeedsOutdoorSpace());
+        animalDTO.setGoodWithChildren(animal.isGoodWithChildren());
+        return animalDTO;
 
     }
 
@@ -121,7 +122,7 @@ public class AnimalService {
         animal.setDescription(animalDTO.getDescription());
 
         List<AnimalSpecies> animalSpecies = animalSpeciesRepository.findAll();
-        for(AnimalSpecies as: animalSpecies) {
+        for (AnimalSpecies as : animalSpecies) {
             if (Objects.equals(as.getSpeciesName(), animalDTO.getAnimalSpecies())) {
                 animal.setAnimalSpecies(as);
             }
@@ -143,8 +144,8 @@ public class AnimalService {
             List<AnimalSpecies> animalSpecies = animalSpeciesRepository.findAll();
             for (AnimalSpecies as : animalSpecies) {
                 if (Objects.equals(as.getSpeciesName(), updatedAnimalDTO.getAnimalSpecies())) {
-                   // as.removeAnimal(exsistingAnimalOld);
-                   // as.addAnimal(exsistingAnimal);
+                    as.removeAnimal(exsistingAnimalOld);
+                    as.addAnimal(exsistingAnimal);
                     exsistingAnimal.setAnimalSpecies(as);
 
                     Animal updatedAnimal = animalRepository.save(exsistingAnimal);

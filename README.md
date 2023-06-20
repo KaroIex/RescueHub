@@ -2,9 +2,9 @@
 
 ## Team members
 
-| Karol Kula | Mateusz Gruszkiewicz | Arek Szymanek | Angelina Piatrowicz |  
-|:------:|:------:|:------:|:------:
-| _Team Leader_, _Backend_, _DevOps_ | _Backend_  | _Backend_ | _Backend_ | 
+| Karol Kula | Mateusz Gruszkiewicz | Arkadiusz Szymanek | Angelina Piatrowicz |  
+|:------:|:------:|:------------------:|:------:
+| _Team Leader_, _Backend_, _DevOps_ | _Backend_  |     _Backend_      | _Backend_ | 
 
 
 Changelog

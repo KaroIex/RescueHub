@@ -1,40 +1,53 @@
 package com.example.rescuehubproject.accounts.entity;
 
 import com.example.rescuehubproject.accounts.util.LogEvent;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
+
 import java.util.Date;
 
 @Entity
 @Table(name = "logs")
+@Schema(name = "Log", description = "Log entity")
 public class Log {
 
     @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
+    @Schema(description = "Log id", example = "1")
     private Long id;
 
     @Column(nullable = false)
+    @Schema(description = "Log date", example = "2021-10-01")
     private Date date;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @Schema(description = "Log action", example = "LOGIN")
     private LogEvent action;
 
     @Column(nullable = false)
+    @Schema(description = "Log subject", example = "Anomymous")
     private String subject;
 
     @Column(nullable = false)
+    @Schema(description = "Log object", example = "User")
     private String object;
 
     @Column(nullable = false)
+    @Schema(description = "Log path", example = "/login")
     private String path;
 
     public Log() {
     }
 
     // getters and setters
+
+    public static Builder builder() {
+        return new Builder();
+    }
 
     public Long getId() {
         return id;
@@ -84,9 +97,8 @@ public class Log {
         this.path = path;
     }
 
-
     public static class Builder {
-        private Log log;
+        private final Log log;
 
         public Builder() {
             log = new Log();
@@ -123,9 +135,5 @@ public class Log {
 
             return log;
         }
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 }

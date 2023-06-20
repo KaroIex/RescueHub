@@ -2,7 +2,6 @@ package com.example.rescuehubproject.accounts.services;
 
 import com.example.rescuehubproject.accounts.entity.Log;
 import com.example.rescuehubproject.accounts.repositories.LogRepository;
-import com.example.rescuehubproject.accounts.repositories.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

@@ -3,8 +3,10 @@ package com.example.rescuehubproject.accounts.entity;
 import com.example.rescuehubproject.accounts.util.Role;
 import com.example.rescuehubproject.adopters.entities.Adopter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,19 +20,54 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
-@Table(name = "USERS")
-public class User extends Person { // rozszerza klasę Person
+@Table(name = "users")
+@Schema(name = "User", description = "User entity")
+public class User {
+
+    @Id
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_person", nullable = false)
+    @Schema(description = "User id", example = "1")
+    private Long id;
+
+    @NotEmpty(message = "name required")
+    @Column(name = "name", nullable = false)
+    @Schema(description = "User name", example = "John")
+    private String name;
+
+    @NotEmpty(message = "lastname required")
+    @Column(name = "lastname", nullable = false)
+    @Schema(description = "User lastname", example = "Doe")
+    private String lastname;
+
+    @NotEmpty(message = "email required")
+    @Column(name = "email", nullable = false, unique = true)
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$")
+    @Schema(description = "User email", example = "example@gmail")
+    private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotEmpty(message = "password required")
     @Column(name = "password", nullable = false)
+    @Schema(description = "User password", example = "password!QAZ")
     private String password;
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "roles")
+    @Column(name = "role")
     private List<Role> roles;
 
+    public User(String name, String lastname, String email, String password) {
+        this.name = name;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User() {
+    }
 
     public void addRole(Role role) {
         if (roles == null) {
@@ -38,22 +75,11 @@ public class User extends Person { // rozszerza klasę Person
         }
         roles.add(role);
 
-        if (role == Role.ROLE_ADOPTER && adopter == null) {
-            // Tworzy pusty rekord danych adoptera przy nadaniu roli ADOPTER
-            Adopter newAdopter = new Adopter();
-            newAdopter.setUser(this);
-            setAdopter(newAdopter);
-        }
     }
 
     public void removeRole(Role role) {
         roles.remove(role);
 
-        if (role == Role.ROLE_ADOPTER && adopter != null) {
-            // Usuwa rekord danych adoptera przy zabraniu roli ADOPTER
-            adopter.setUser(null);
-            setAdopter(null);
-        }
     }
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -75,17 +101,8 @@ public class User extends Person { // rozszerza klasę Person
         this.roles = roles;
     }
 
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return this.getId() != null && Objects.equals(this.getId(), user.getId());
-    }
-
-    @Override
-    public Long getId() {
-        return super.getId();
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
