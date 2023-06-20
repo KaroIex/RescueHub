@@ -21,7 +21,7 @@ public class RescueHubProjectApplication {
     public CommandLineRunner init() {
         return args -> {
 
-            //dataInitializer.initializeData();
+            dataInitializer.initializeData();
 
         };
     }

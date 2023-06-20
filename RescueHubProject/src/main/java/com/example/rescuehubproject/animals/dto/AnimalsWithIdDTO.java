@@ -2,15 +2,14 @@ package com.example.rescuehubproject.animals.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.FetchProfile;
 
 @Getter
 @Setter
-public class AnimalsWithIdDTO extends AnimalDTO{
+public class AnimalsWithIdDTO extends AnimalDTO {
 
     private Long id;
 
-    public AnimalsWithIdDTO(long l, String name, Integer age, String animalSpecies, String description, boolean needsAttention, boolean isSocialAnimal,boolean needsOutdoorSpace, boolean goodWithChildren ) {
+    public AnimalsWithIdDTO(long l, String name, Integer age, String animalSpecies, String description, boolean needsAttention, boolean isSocialAnimal, boolean needsOutdoorSpace, boolean goodWithChildren) {
         super(name, age, animalSpecies, description, needsAttention, isSocialAnimal, needsOutdoorSpace, goodWithChildren);
         this.id = l;
     }

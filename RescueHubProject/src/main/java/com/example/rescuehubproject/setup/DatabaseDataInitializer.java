@@ -50,12 +50,12 @@ public class DatabaseDataInitializer implements DataInitializer {
 
     @Override
     public void initializeData() {
-        initializeUsers(admins, Role.ROLE_ADMINISTRATOR);
-        initializeUsers(adopters, Role.ROLE_ADOPTER);
-        initializeUsers(users, Role.ROLE_USER);
+//        initializeUsers(admins, Role.ROLE_ADMINISTRATOR);
+//        initializeUsers(adopters, Role.ROLE_ADOPTER);
+//        initializeUsers(users, Role.ROLE_USER);
         initializeAnimalsSpecies(animalSpecies);
         initializeAnimals(animalNames);
-        initializeAdoption();
+        //initializeAdoption();
 
     }
 
