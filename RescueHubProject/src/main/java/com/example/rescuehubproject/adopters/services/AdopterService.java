@@ -3,10 +3,12 @@ package com.example.rescuehubproject.adopters.services;
 import com.example.rescuehubproject.accounts.entity.User;
 import com.example.rescuehubproject.accounts.repositories.UserRepository;
 import com.example.rescuehubproject.accounts.util.Role;
+import com.example.rescuehubproject.adopters.dto.CreateAdopterDTO;
 import com.example.rescuehubproject.adopters.dto.GetAdopterByIdDTO;
 import com.example.rescuehubproject.adopters.dto.GetAdopterDTO;
 import com.example.rescuehubproject.adopters.dto.PutAdopterDTO;
 import com.example.rescuehubproject.adopters.entities.Adopter;
+import com.example.rescuehubproject.adopters.exceptions.EmptyAdopterDetailsExceptions;
 import com.example.rescuehubproject.adopters.exceptions.UserIsNotAnAdopter;
 import com.example.rescuehubproject.adopters.exceptions.UserNotFoundException;
 import com.example.rescuehubproject.adopters.repositories.AdopterRepository;
@@ -72,26 +74,45 @@ public class AdopterService {
 
         String userId = null;
 
+        if (authentication.getPrincipal() instanceof UserDetailsImpl userDetails) userId = userDetails.getId();
+        else throw new UserNotFoundException();
+
+        Optional<User> optionalUser = userRepository.findById(Long.parseLong(userId));
+        if (!optionalUser.isPresent()) throw new UserNotFoundException();
+
+        User user = optionalUser.get();
+        if (user.getAdopter() == null) throw new EmptyAdopterDetailsExceptions();
+
+        Adopter adopter = user.getAdopter();
+        if (adopter == null) throw new UserIsNotAnAdopter();
+
+        modelMapper.map(adopterDto, adopter);
+        adopterRepository.save(adopter);
+        return adopterDto;
+
+    }
+
+    public void createAdopter(Authentication authentication, CreateAdopterDTO createAdopterDTO) {
+
+        Long userId = null;
+        // Get the user id from the authentication object
         if (authentication.getPrincipal() instanceof UserDetailsImpl userDetails) {
-            userId = userDetails.getId();
+            userId = Long.parseLong(userDetails.getId());
         } else {
             throw new UserNotFoundException();
         }
 
-        Optional<User> optionalUser = userRepository.findById(Long.parseLong(userId));
-        if (!optionalUser.isPresent()) throw new UserNotFoundException();
-        User user = optionalUser.get();
-        Adopter adopter = user.getAdopter();
-        if (adopter == null) throw new UserIsNotAnAdopter();
-        adopter.setPhone(adopterDto.getPhone());
-        adopter.setStreet(adopterDto.getStreet());
-        adopter.setCity(adopterDto.getCity());
-        adopter.setState(adopterDto.getState());
-        adopter.setZip(adopterDto.getZip());
-        adopter.setCountry(adopterDto.getCountry());
-        adopterRepository.save(adopter);
-        return adopterDto;
+        User user = userRepository.findById(userId)
+                .orElseThrow(com.example.rescuehubproject.accounts.execeptions.UserNotFoundException::new);
 
+        if (user.getAdopter() != null)
+            throw new RuntimeException("User with userId: " + userId + " is already an adopter");
+
+        Adopter adopter = modelMapper.map(createAdopterDTO, Adopter.class);
+        adopter.setUser(user);
+
+        adopterRepository.save(adopter);
+        userRepository.save(user);
     }
 
 }
