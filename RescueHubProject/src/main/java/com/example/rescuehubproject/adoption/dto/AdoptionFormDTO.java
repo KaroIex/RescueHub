@@ -27,6 +27,6 @@ public class AdoptionFormDTO {
     @Schema(description = "animal age for adoption", example = "2")
     private int preferredAge;
 
-    @Schema(description = "animal name for adoption", example = "Bobby")
+    @Schema(description = "animal name for adoption", example = "Pies")
     private String preferredSpecies;
 }

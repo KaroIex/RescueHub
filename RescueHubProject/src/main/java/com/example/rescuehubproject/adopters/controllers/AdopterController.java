@@ -1,9 +1,13 @@
 package com.example.rescuehubproject.adopters.controllers;
 
+import com.example.rescuehubproject.accounts.entity.User;
+import com.example.rescuehubproject.accounts.execeptions.UserNotFoundException;
 import com.example.rescuehubproject.accounts.repositories.UserRepository;
+import com.example.rescuehubproject.adopters.dto.CreateAdopterDTO;
 import com.example.rescuehubproject.adopters.dto.GetAdopterByIdDTO;
 import com.example.rescuehubproject.adopters.dto.GetAdopterDTO;
 import com.example.rescuehubproject.adopters.dto.PutAdopterDTO;
+import com.example.rescuehubproject.adopters.entities.Adopter;
 import com.example.rescuehubproject.adopters.repositories.AdopterRepository;
 import com.example.rescuehubproject.adopters.services.AdopterService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +43,9 @@ public class AdopterController {
     private UserRepository userRepository;
     @Autowired
     private AdopterRepository adopterRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping
     @Operation(summary = "Find all adopters")
@@ -79,7 +87,7 @@ public class AdopterController {
     }
 
 
-    @PutMapping("/{userId}")
+    @PutMapping
     @Operation(summary = "Update adopter")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully updated adopter",
@@ -87,12 +95,29 @@ public class AdopterController {
             @ApiResponse(responseCode = "404", description = "Adopter not found", content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })
-    public ResponseEntity<PutAdopterDTO> updateAdopter(@PathVariable("userId") Long userId, @Parameter(description = "Adopter data to update")
-    @RequestBody PutAdopterDTO adopterDto) {
+    public ResponseEntity<PutAdopterDTO> updateAdopter(@Parameter(description = "Adopter data to update")
+                                                       @RequestBody PutAdopterDTO adopterDto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return ResponseEntity.ok(adopterService.updateAdopter(authentication, adopterDto));
 
     }
+
+    @PostMapping
+    @Operation(summary = "Create adopter")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully created adopter",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GetAdopterDTO.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+    public ResponseEntity<CreateAdopterDTO> createAdopter(@RequestBody CreateAdopterDTO createAdopterDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        adopterService.createAdopter(authentication, createAdopterDTO);
+        return new ResponseEntity<>(createAdopterDTO, HttpStatus.CREATED);
+    }
+
+
 }
 

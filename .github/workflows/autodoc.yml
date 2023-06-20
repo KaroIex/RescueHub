@@ -1,0 +1,78 @@
+name: autodoc
+on:
+  workflow_dispatch:
+
+jobs:
+  autodoc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'  
+      - name: Grant execute permission for gradlew
+        run: |
+          cd RescueHubProject
+          chmod +x gradlew
+      - name: Build with Gradle
+        run: |
+          cd RescueHubProject
+          ./gradlew bootJar
+      - name: Start Application
+        run: |
+          cd RescueHubProject
+          java -jar build/libs/*.jar &
+      
+      - name: Sleep for 30 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '30s'
+      
+      - name: Fetch Swagger JSON
+        run: curl http://localhost:8080/v3/api-docs -o swagger.json
+      
+      - name: Create required directories
+        run: mkdir -p doc/api
+      
+      - name: Convert Swagger to AsciiDoc
+        run: java -jar docs/swagger2markup-cli-2.0.0-SNAPSHOT.jar convert -i swagger.json -d doc/api
+      
+      - name: Install Asciidoctor and Asciidoctor PDF
+        run: |
+          sudo apt-get install ruby-full build-essential zlib1g-dev
+          sudo gem install asciidoctor
+          sudo gem install asciidoctor-pdf --pre
+          asciidoctor-pdf --version
+
+      - name: Combine AsciiDoc files
+        run: cat doc/api/*.adoc > doc/api-documentation.adoc
+      
+      - name: Convert AsciiDoc to PDF
+        run: asciidoctor-pdf doc/api-documentation.adoc -o doc/api-documentation.pdf
+        
+      - name: Copy PDF to docs directory
+        run: cp doc/api-documentation.pdf docs/
+      
+      - name: Archive AsciiDoc and PDF files
+        uses: actions/upload-artifact@v2
+        with:
+          name: API-Docs
+          path: |
+            doc/api/*.adoc
+            doc/api-documentation.adoc
+            doc/api-documentation.pdf
+            
+      - name: Commit PDF file
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add docs/api-documentation.pdf
+          git commit -m "Add documentation PDF" -a
+          
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.MY_TOKEN }}
+          branch: documentation-update
