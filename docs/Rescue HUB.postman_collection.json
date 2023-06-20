@@ -1,0 +1,2461 @@
+{
+	"info": {
+		"_postman_id": "045c99d9-6818-4b42-9490-2d643af81678",
+		"name": "Rescue HUB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27014859",
+		"_collection_link": "https://dark-flare-911914.postman.co/workspace/RescueHub~6c88d21f-f5b7-4341-aace-e3ea296061e6/collection/27014859-045c99d9-6818-4b42-9490-2d643af81678?action=share&creator=27014859&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "accounts",
+			"item": [
+				{
+					"name": "create account",
+					"item": [
+						{
+							"name": "create test1 OK",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"name\": \"test1\",\r\n   \"lastname\": \"test1\",\r\n   \"email\": \"test1@test.com\",\r\n   \"password\": \"secretsecret\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/auth/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create  test2 OK",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"name\": \"test2\",\r\n   \"lastname\": \"test2\",\r\n   \"email\": \"test2@test.com\",\r\n   \"password\": \"secretsecret\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/auth/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create account FAIL",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"name\": \"test3\",\r\n   \"lastname\": \"test3\",\r\n   \"email\": \"test3@test.com\",\r\n   \"password\": \"secret\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/auth/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "...  test3",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"name\": \"test3\",\r\n   \"lastname\": \"test3\",\r\n   \"email\": \"test3@test.com\",\r\n   \"password\": \"testowetestowe\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/signup",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "... test4",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"name\": \"test4\",\r\n   \"lastname\": \"test4\",\r\n   \"email\": \"test4@test.com\",\r\n   \"password\": \"testowetestowe\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/signup",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "change pass",
+					"item": [
+						{
+							"name": "change for test1@test.com",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "test1@test.com",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "secretsecret",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"new_password\": \"newsecretsecret\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/auth/changepass",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"auth",
+										"changepass"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "roles",
+					"item": [
+						{
+							"name": "GRANT USER to test1",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "admin@admin.com",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "!QAZXSW@#EDCVFR$",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"user\": \"test1@test.com\",\r\n   \"role\": \"USER\",\r\n   \"operation\": \"GRANT\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/admin/user/role",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"user",
+										"role"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "REMOVE USER from test1",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "admin@admin.com",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "!QAZXSW@#EDCVFR$",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"user\": \"test1@test.com\",\r\n   \"role\": \"USER\",\r\n   \"operation\": \"REMOVE\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/admin/user/role",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"user",
+										"role"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Lisl all users - admin",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "admin@admin.com",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "!QAZXSW@#EDCVFR$",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/admin/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Lista all users -  test1",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "test1@test.com",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "secretsecret",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/admin/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "delete user",
+					"item": [
+						{
+							"name": "/api/admin/user/  test1",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "admin@admin.com",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "!QAZXSW@#EDCVFR$",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/admin/user/test1@test.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"user",
+										"test1@test.com"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/api/admin/user/  test2",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "!QAZXSW@#EDCVFR$",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin@test.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/admin/user/test2@test.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"user",
+										"test2@test.com"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/api/admin/user/  admin",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "!QAZXSW@#EDCVFR$",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin@test.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/admin/user/admin@test.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"user",
+										"admin@test.com"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "logs",
+					"item": [
+						{
+							"name": "Get all logs - admin",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "admin@admin.com",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "!QAZXSW@#EDCVFR$",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/admin/logs",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"logs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all logs - test1",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "secretsecret",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "test1@test.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/admin/logs",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"logs"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "animals",
+			"item": [
+				{
+					"name": "getAllAnimals unauth",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animal",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAnimals admin",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animal",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAnimals user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animal",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAnimals adopter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animal",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get api/animal/{id} unauth",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animal/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get api/animal/{id} admin",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animal/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get api/animal/{id} user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animal/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get api/animal/{id} adopter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animal/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/animal unauth",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Berta\",\r\n   \"age\": \"2\",\r\n   \"speciesName\": \"kot\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animal",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/animal not animalSpecies",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Berta\",\r\n   \"age\": \"2\",\r\n   \"speciesName\": \"kot\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animal",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/animal admin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Berta\",\r\n   \"age\": \"2\",\r\n   \"speciesName\": \"kot\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animal",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/animal user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Berta\",\r\n   \"age\": \"2\",\r\n   \"speciesName\": \"kot\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animal",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/animal adopter",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Berta\",\r\n   \"age\": \"2\",\r\n   \"speciesName\": \"kot\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animal",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update animal unauth",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"string\",\r\n  \"age\": 0,\r\n  \"animalSpecies\": \"Kot\",\r\n  \"description\": \"string\",\r\n  \"needsAttention\": true,\r\n  \"needsOutdoorSpace\": true,\r\n  \"goodWithChildren\": true,\r\n  \"socialAnimal\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animal/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update animal admin",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@test.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "!QAZXSW@#EDCVFR$",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"string\",\r\n  \"age\": 0,\r\n  \"animalSpecies\": \"Kot\",\r\n  \"description\": \"string\",\r\n  \"needsAttention\": true,\r\n  \"needsOutdoorSpace\": true,\r\n  \"goodWithChildren\": true,\r\n  \"socialAnimal\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animal/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update animal user",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@test.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "!QAZXSW@#EDCVFR$",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"string\",\r\n  \"age\": 0,\r\n  \"animalSpecies\": \"Kot\",\r\n  \"description\": \"string\",\r\n  \"needsAttention\": true,\r\n  \"needsOutdoorSpace\": true,\r\n  \"goodWithChildren\": true,\r\n  \"socialAnimal\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animal/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update animal adopter",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@test.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "!QAZXSW@#EDCVFR$",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"string\",\r\n  \"age\": 0,\r\n  \"animalSpecies\": \"Kot\",\r\n  \"description\": \"string\",\r\n  \"needsAttention\": true,\r\n  \"needsOutdoorSpace\": true,\r\n  \"goodWithChildren\": true,\r\n  \"socialAnimal\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animal/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete animal unauth",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animal/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete animal admin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animal/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete animal user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animal/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete animal adopter",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animal/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animal",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "animal species",
+			"item": [
+				{
+					"name": "get all animal species",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animalspecies",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all animal species (user)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animalspecies",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/animalspecies/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animalspecies/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/animalspecies admin",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "!QAZXSW@#EDCVFR$",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@test.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"speciesName\": \"tes1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animalspecies",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/animalspecies no auth",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "!QAZXSW@#EDCVFR$",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@test.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"speciesName\": \"tes1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animalspecies",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/animalspecies test2 adopter",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "adopter1@test.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "!QAZXSW@#EDCVFR$",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"speciesName\": \"test2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animalspecies",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/animalspecies user",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "!QAZXSW@#EDCVFR$",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user1@test.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"speciesName\": \"ptak\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animalspecies",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update animalspecies unath",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"speciesName\": \"test3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animalspecies/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update animalspecies admin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"speciesName\": \"ptak\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animalspecies/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update animalspecies user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"speciesName\": \"ptak\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animalspecies/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update animalspecies adopter",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"speciesName\": \"ptak\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/animalspecies/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete animalspecies  unath",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "secretsecret",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "test2@test.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animalspecies/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete animalspecies admin",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "secretsecret",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "test2@test.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animalspecies/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete animalspecies user",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "secretsecret",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "test2@test.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animalspecies/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete animalspecies adopter",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "test1@test.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "secretsecret",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/animalspecies/4",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"animalspecies",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "adoptions",
+			"item": [
+				{
+					"name": "get all adoptions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/adoptions",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"adoptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/adoptions/{id}",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "api/adoptions test1",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "update adoption",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete adoption",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Requesty Karola",
+			"item": [
+				{
+					"name": "Account",
+					"item": [
+						{
+							"name": "Users",
+							"item": [
+								{
+									"name": "Admin register",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"name\": \"admin\",\r\n   \"lastname\": \"admin\",\r\n   \"email\": \"admin@test.com\",\r\n   \"password\": \"secretsecret\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/auth/signup",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"signup"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Admin login jwt",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"email\": \"admin@test.com\",\r\n   \"password\": \"secretsecret\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/auth/signin",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"signin"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Adopter register",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"name\": \"adopter\",\r\n   \"lastname\": \"adopter\",\r\n   \"email\": \"adopter@test.com\",\r\n   \"password\": \"secretsecret\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/auth/signup",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"signup"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Adopter login",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"email\": \"adopter@test.com\",\r\n   \"password\": \"secretsecret\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/auth/signin",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"signin"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Admin",
+							"item": [
+								{
+									"name": "Add role",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "admin@test.com",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "secretsecret",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"user\": \"adopter@test.com\",\r\n  \"role\": \"USER\",\r\n  \"operation\": \"GRANT\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/admin/user/role",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"role"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Remove role",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "admin@test.com",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "secretsecret",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"user\": \"adopter@test.com\",\r\n  \"role\": \"USER\",\r\n  \"operation\": \"REMOVE\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/admin/user/role",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"role"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get users",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "admin@test.com",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "secretsecret",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080/api/admin/user",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"admin",
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get logs",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "admin@test.com",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "secretsecret",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080/api/admin/user",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"admin",
+												"user"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Animal",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Admin register Copy",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"name\": \"admin\",\r\n   \"lastname\": \"admin\",\r\n   \"email\": \"admin@test.com\",\r\n   \"password\": \"secretsecret\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/auth/signup",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"signup"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Adopter register Copy",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"name\": \"adopter\",\r\n   \"lastname\": \"adopter\",\r\n   \"email\": \"adopter@test.com\",\r\n   \"password\": \"secretsecret\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/auth/signup",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"signup"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "User register Copy",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"name\": \"user\",\r\n   \"lastname\": \"user\",\r\n   \"email\": \"user@test.com\",\r\n   \"password\": \"secretsecret\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/auth/signup",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"signup"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add role Copy",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "admin@test.com",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "secretsecret",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"user\": \"user@test.com\",\r\n  \"role\": \"USER\",\r\n  \"operation\": \"GRANT\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/admin/user/role",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"role"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Remove role Copy",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "admin@test.com",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "secretsecret",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"user\": \"adopter@test.com\",\r\n  \"role\": \"USER\",\r\n  \"operation\": \"REMOVE\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/admin/user/role",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"admin",
+												"user",
+												"role"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Methods",
+							"item": [
+								{
+									"name": "Get for all",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": ""
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get by id for all",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": ""
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add new animal (user)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "user@test.com",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "secretsecret",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"Burek\",\r\n  \"age\": 2,\r\n  \"animalSpecies\": \"Pies\",\r\n  \"description\": \"Burek is a very nice dog\",\r\n  \"needsAttention\": true,\r\n  \"needsOutdoorSpace\": true,\r\n  \"goodWithChildren\": true,\r\n  \"socialAnimal\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/animal",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"animal"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update animal",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "user@test.com",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "secretsecret",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"Burek\",\r\n  \"age\": 2,\r\n  \"animalSpecies\": \"Pies\",\r\n  \"description\": \"Burek is a very nice dog and i test update\",\r\n  \"needsAttention\": true,\r\n  \"needsOutdoorSpace\": true,\r\n  \"goodWithChildren\": true,\r\n  \"socialAnimal\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/animal/76",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"animal",
+												"76"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "New Request",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "user@test.com",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "secretsecret",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080/api/animal/75",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"animal",
+												"75"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add adopter",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get adopter adoptions",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "adopter@test.com",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "secretsecret",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/adoptions/myadoptions?currentPage=0&size=10",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"adoptions",
+										"myadoptions"
+									],
+									"query": [
+										{
+											"key": "currentPage",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete adoptions by user/admin",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "admin@test.com",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "secretsecret",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/adoptions/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"adoptions",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/"
+		}
+	]
+}
