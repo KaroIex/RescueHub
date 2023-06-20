@@ -20,7 +20,6 @@ repositories {
 
 dependencies {
 
-    // starters
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-test'
@@ -41,21 +40,23 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.20'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 
-    //junit (tests)
+    // Junit 5
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
-    //jwt
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
 
-    //others
+    // others
     implementation 'org.modelmapper:modelmapper:2.4.4'
-    implementation 'javax.servlet:javax.servlet-api:3.1.0'
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+    implementation 'javax.servlet:javax.servlet-api:3.1.0'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    testImplementation 'org.springframework.security:spring-security-test'
+
 }
 
 tasks.named('test') {
