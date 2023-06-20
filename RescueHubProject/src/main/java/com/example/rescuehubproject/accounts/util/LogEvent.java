@@ -7,11 +7,8 @@ public enum LogEvent {
     LOGIN_FAILED("LOGIN_FAILED"),
     GRANT_ROLE("GRANT_ROLE"),
     REMOVE_ROLE("REMOVE_ROLE"),
-    LOCK_USER("LOCK_USER"), //todo
-    UNLOCK_USER("UNLOCK_USER"), //todo
     DELETE_USER("DELETE_USER"),
-    BRUTE_FORCE("BRUTE_FORCE"), //todo
-    AUTH_SUCCESS("AUTH_SUCCESS"), //niepotrzebne ale moze byc
+    AUTH_SUCCESS("AUTH_SUCCESS"),
     DEFAULT_ACTION("DEFAULT_ACTION");
 
     private final String eventName;

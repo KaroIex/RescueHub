@@ -1,6 +1,5 @@
 package com.example.rescuehubproject.accounts.controllers;
 
-import com.example.rescuehubproject.accounts.entity.User;
 import com.example.rescuehubproject.accounts.request.AuthenticationRequest;
 import com.example.rescuehubproject.accounts.request.ChangePass;
 import com.example.rescuehubproject.accounts.request.UserRegisterDTO;

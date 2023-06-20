@@ -10,11 +10,8 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Hibernate;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -44,7 +41,7 @@ public class User {
     @NotEmpty(message = "email required")
     @Column(name = "email", nullable = false, unique = true)
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$")
-    @Schema(description = "User email", example = "example@gmail")
+    @Schema(description = "User email", example = "example@gmail.com")
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

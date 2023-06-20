@@ -45,4 +45,13 @@ class UserControllerTest {
         assertEquals("user@test.com", userDto.getEmail());
         assertEquals("!QAZXSW@123456", userDto.getPassword());
     }
+
+    @Test
+    //change password
+    void changePassword(){
+
+
+
+    }
+
 }
