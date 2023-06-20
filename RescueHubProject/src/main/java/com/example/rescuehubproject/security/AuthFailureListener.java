@@ -1,8 +1,8 @@
 package com.example.rescuehubproject.security;
 
 import com.example.rescuehubproject.accounts.entity.Log;
-import com.example.rescuehubproject.accounts.util.LogEvent;
 import com.example.rescuehubproject.accounts.services.LogService;
+import com.example.rescuehubproject.accounts.util.LogEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;

@@ -1,23 +1,29 @@
 package com.example.rescuehubproject.animals.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Schema(name = "AnimalDTO", description = "DTO representing an animal")
 public class AnimalDTO {
 
     @NotEmpty(message = "Name must not be empty")
+    @Schema(description = "Name of the animal", example = "Burek")
     private String name;
 
     @NotEmpty(message = "Age must not be empty")
+    @Schema(description = "Age of the animal", example = "2")
     private Integer age;
 
     @NotEmpty(message = "Species id must not be empty")
+    @Schema(description = "Species of the animal", example = "Dog")
     private String animalSpecies;
 
     @NotEmpty(message = "Description id must not be empty")
+    @Schema(description = "Description of the animal", example = "Burek is a very nice dog")
     private String description;
 
     @NotEmpty(message = "Needs attention must not be empty")

@@ -30,9 +30,11 @@ public class DatabaseDataInitializer implements DataInitializer {
     "Tucker", "Gracie", "Bear", "Coco", "Oliver", "Sasha", "Teddy", "Annie", "Riley", "Mia", "Winston", "Lily", "Murphy", "Ruby", "Leo", "Penny",
     "Oscar", "Emma", "Louie", "Samantha", "Bentley", "Sassy", "Zeus", "Sandy", "Henry", "Katie", "Sam", "Nikki", "Harley", "Misty", "Baxter", "Princess",
     "Gus", "Baby", "Loki", "Missy", "Jackson", "Bailey", "Bruno", "Brandy", "Diesel", "Holly", "Jax", "Jasmine", "Bandit", "Shelby", "Milo", "Sugar"};
+
     private static final String[] admins = {"admin"};
     private static final String[] adopters = {"adopter1", "adopter2", "adopter3", "adopter4"};
     private static final String[] users = {"user1", "user2", "user3", "user4"};
+
     @Autowired
     AnimalRepository animalRepository;
     @Autowired
@@ -48,12 +50,12 @@ public class DatabaseDataInitializer implements DataInitializer {
 
     @Override
     public void initializeData() {
-        initializeUsers(admins, Role.ROLE_ADMINISTRATOR);
-        initializeUsers(adopters, Role.ROLE_ADOPTER);
-        initializeUsers(users, Role.ROLE_USER);
+//        initializeUsers(admins, Role.ROLE_ADMINISTRATOR);
+//        initializeUsers(adopters, Role.ROLE_ADOPTER);
+//        initializeUsers(users, Role.ROLE_USER);
         initializeAnimalsSpecies(animalSpecies);
         initializeAnimals(animalNames);
-        initializeAdoption();
+        //initializeAdoption();
 
     }
 
@@ -111,7 +113,6 @@ public class DatabaseDataInitializer implements DataInitializer {
             adoption.setAdopter(adopter);
             adoption.setAnimal(animal);
             adoptionRepository.save(adoption);
-            System.out.println(adoption.getAdopter().getUser().getName());
         }
     }
 

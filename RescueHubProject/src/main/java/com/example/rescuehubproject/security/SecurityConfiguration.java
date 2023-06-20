@@ -36,6 +36,11 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter(jwtUtils, userDetailsService);
     }
@@ -70,31 +75,32 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/actuator/shutdown").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/signup/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/changepass/**").hasAnyRole(ADMIN, USER, ADOPTER)
+
+                        .requestMatchers(HttpMethod.POST, "/api/auth/signup").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/changepass").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/admin/user/**").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.PUT, "/api/admin/user/role/**").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.GET, "/api/admin/user/**").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.GET, "/api/admin/logs").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.PUT, "/api/empl/authenticated").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/api/empl/protected").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/empl/protected").hasRole(ADOPTER)
 
                         .requestMatchers(HttpMethod.GET, "/api/auth/adopter").hasRole(ADOPTER)
 
                         //*****ANIMAL SPECIES*****\\
                         .requestMatchers(HttpMethod.GET, "/api/animalspecies/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/animalspecies").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/animalspecies").hasRole(ADMIN)
-                        .requestMatchers(HttpMethod.PUT, "/api/animalspecies/{id}").hasRole(ADMIN)
-                        .requestMatchers(HttpMethod.DELETE, "/api/animalspecies/{id}").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.POST, "/api/animalspecies").hasAnyRole(ADMIN, USER)
+                        .requestMatchers(HttpMethod.PUT, "/api/animalspecies/{id}").hasAnyRole(ADMIN, USER)
+                        .requestMatchers(HttpMethod.DELETE, "/api/animalspecies/{id}").hasAnyRole(ADMIN, USER)
                         //*****ANIMAL SPECIES*****\\
 
                         //*****ANIMAL *****\\
-                        .requestMatchers(HttpMethod.GET, "/api/animalspecies/{id}").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/animalspecies").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/animalspecies").hasRole(ADMIN)
-                        .requestMatchers(HttpMethod.PUT, "/api/animalspecies/{id}").hasRole(ADMIN)
-                        .requestMatchers(HttpMethod.DELETE, "/api/animalspecies/{id}").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.GET, "/api/animal/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/animal").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/animal").hasAnyRole(ADMIN, USER)
+                        .requestMatchers(HttpMethod.PUT, "/api/animal/{id}").hasAnyRole(ADMIN, USER)
+                        .requestMatchers(HttpMethod.DELETE, "/api/animal/{id}").hasAnyRole(ADMIN, USER)
                         //*****ANIMAL *****\\
 
                         //*****ADOPTER*****\\
@@ -103,18 +109,12 @@ public class SecurityConfiguration {
                         .anyRequest().permitAll()
 
 
-
                 )
                 .userDetailsService(userDetailsService)
                 .exceptionHandling().accessDeniedHandler(getAccessDeniedHandler())
                 .and()
                 .httpBasic(Customizer.withDefaults())
                 .build();
-    }
-
-    @Bean
-    public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean

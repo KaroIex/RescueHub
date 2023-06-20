@@ -1,12 +1,11 @@
 package com.example.rescuehubproject.security;
 
-import org.springframework.security.core.userdetails.User;
+import com.example.rescuehubproject.accounts.execeptions.UserNotFoundException;
+import com.example.rescuehubproject.accounts.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import com.example.rescuehubproject.accounts.execeptions.UserNotFoundException;
 import org.springframework.stereotype.Service;
-import com.example.rescuehubproject.accounts.repositories.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

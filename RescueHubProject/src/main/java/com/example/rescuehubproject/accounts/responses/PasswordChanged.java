@@ -10,9 +10,10 @@ public class PasswordChanged {
 
     private String email;
 
-    private String status = "The password has been updated successfully";
+    private final String status = "The password has been updated successfully";
 
-    PasswordChanged() {}
+    PasswordChanged() {
+    }
 
     public PasswordChanged(String email) {
         this.email = email;
