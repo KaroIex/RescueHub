@@ -2,9 +2,6 @@ package com.example.rescuehubproject.accounts.util;
 
 
 import com.example.rescuehubproject.accounts.execeptions.RoleNotFoundException;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.Collection;
 
 public enum Role {
     ROLE_USER,

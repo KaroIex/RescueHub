@@ -19,45 +19,43 @@ repositories {
 }
 
 dependencies {
+
+    // starters
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-
+    //h2 database and hibernate
     implementation 'com.h2database:h2'
     implementation group: 'org.hibernate', name: 'hibernate-validator', version: '6.1.0.Final'
 
+    //lombok
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
     testCompileOnly 'org.projectlombok:lombok:1.18.20'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-
+    //junit (tests)
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
 
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    //jwt
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
-    implementation 'javax.servlet:javax.servlet-api:3.1.0'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
 
+    //others
     implementation 'org.modelmapper:modelmapper:2.4.4'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    testImplementation 'org.springframework.security:spring-security-test'
-
+    implementation 'javax.servlet:javax.servlet-api:3.1.0'
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 }
 
 tasks.named('test') {

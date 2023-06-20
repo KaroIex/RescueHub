@@ -4,7 +4,6 @@ import com.example.rescuehubproject.accounts.util.LogEvent;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
-
 import java.util.Date;
 
 @Entity
@@ -29,7 +28,7 @@ public class Log {
     private LogEvent action;
 
     @Column(nullable = false)
-    @Schema(description = "Log subject", example = "Anomymous")
+    @Schema(description = "Log subject", example = "admin@admin.com")
     private String subject;
 
     @Column(nullable = false)
@@ -37,7 +36,7 @@ public class Log {
     private String object;
 
     @Column(nullable = false)
-    @Schema(description = "Log path", example = "/login")
+    @Schema(description = "Log path", example = "/api/auth/login")
     private String path;
 
     public Log() {
@@ -96,6 +95,8 @@ public class Log {
     public void setPath(String path) {
         this.path = path;
     }
+
+    //log builder
 
     public static class Builder {
         private final Log log;
