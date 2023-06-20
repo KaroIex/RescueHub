@@ -63,6 +63,7 @@ public class DatabaseDataInitializer implements DataInitializer {
         initializeUsers(NUMBER_OF_ADMINS, Role.ROLE_ADMINISTRATOR);
         initializeUsers(NUMBER_OF_ADOPTERS, Role.ROLE_ADOPTER);
         initializeUsers(NUMBER_OF_USERS, Role.ROLE_USER);
+        initialize();
         initializeAnimalsSpecies(animalSpecies);
         initializeAnimals(animalNames);
         initializeAdoption();
@@ -73,6 +74,49 @@ public class DatabaseDataInitializer implements DataInitializer {
             AnimalSpecies animalSpecies1 = new AnimalSpecies();
             animalSpecies1.setSpeciesName(name);
             animalSpeciesRepository.save(animalSpecies1);
+        }
+    }
+
+    private void initialize(){
+        User user1 = new User();
+        user1.setName("user1");
+        user1.setLastname("user1");
+        user1.setEmail("user1@test.com");
+        user1.setPassword(encoder.encode("!QAZXSW@#EDCVFR$"));
+        user1.addRole(Role.ROLE_USER);
+        userRepository.save(user1);
+
+        User user2 = new User();
+        user2.setName("adopter1");
+        user2.setLastname("adopter1");
+        user2.setEmail("adopter1@test.com");
+        user2.setPassword(encoder.encode("!QAZXSW@#EDCVFR$"));
+        Role role = Role.ROLE_ADOPTER;
+        user2.addRole(role);
+        userRepository.save(user2);
+
+        User user3 = new User();
+        user3.setName("admin");
+        user3.setLastname("admin");
+        user3.setEmail("admin@test.com");
+        user3.setPassword(encoder.encode("!QAZXSW@#EDCVFR$"));
+        Role role2 = Role.ROLE_ADMINISTRATOR;
+        user3.addRole(role2);
+        userRepository.save(user3);
+
+
+        if (role == Role.ROLE_ADOPTER) {
+            Adopter adopter = new Adopter();
+            adopter.setUser(user2);
+            Random random = new Random();
+            adopter.setPhone((String.valueOf(random.nextInt(999999999) + 100000000)));
+            adopter.setCity("Test city");
+            adopter.setCountry("Test country");
+            adopter.setStreet("Test street");
+            adopter.setZip("Test zip code");
+            adopter.setState("Test state");
+            adopterRepository.save(adopter);
+            user2.setAdopter(adopter);
         }
     }
 
