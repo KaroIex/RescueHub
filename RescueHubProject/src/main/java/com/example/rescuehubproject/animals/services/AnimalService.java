@@ -92,8 +92,8 @@ public class AnimalService {
                 return convertToDTO(savedAnimal);
             }
         }
-        return null;
-        //throw new NoSuchFieldException("AnimalSpecies with name " + animalDTO.getAnimalSpecies() + " not found");
+        throw new NoSuchFieldException("AnimalSpecies with name " + animalDTO.getAnimalSpecies() + " not found");
+      //  return null;
     }
 
     @Transactional

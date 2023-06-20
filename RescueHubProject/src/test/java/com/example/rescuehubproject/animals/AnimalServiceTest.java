@@ -141,7 +141,7 @@ public class AnimalServiceTest {
 
         when(animalRepository.save(any(Animal.class))).thenAnswer(invocation -> {
             Animal savedAnimal = invocation.getArgument(0);
-            savedAnimal.setId(1L); // Assign an ID to the saved animal
+            savedAnimal.setId(1L);
             return savedAnimal;
         });
         when(animalSpeciesRepository.findAll()).thenReturn(Collections.singletonList(animalSpecies));
