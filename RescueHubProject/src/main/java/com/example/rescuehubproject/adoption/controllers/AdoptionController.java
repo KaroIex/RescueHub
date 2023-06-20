@@ -94,9 +94,9 @@ public class AdoptionController {
             @ApiResponse(responseCode = "400", description = "Animal not found or Animal already adopted or User not found or User is not an adopter.", content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })
-    public ResponseEntity<Void> adopt(@RequestParam(name = "id animal", required = true) @PathVariable Long animalId) {
+    public ResponseEntity<Void> adopt( @PathVariable Long animal_Id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        adoptionService.adopt(authentication, animalId);
+        adoptionService.adopt(authentication, animal_Id);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
