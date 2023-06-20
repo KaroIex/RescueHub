@@ -91,7 +91,7 @@ public class DatabaseDataInitializer implements DataInitializer {
             } else {
                 user.setEmail(firstName.toLowerCase() + lastName.toLowerCase() + i + "@admin.com");
             }
-            user.setPassword(encoder.encode("secretsecret"));
+            user.setPassword(encoder.encode("!QAZXSW@#EDCVFR$"));
             user.addRole(role);
             userRepository.save(user);
 
