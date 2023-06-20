@@ -90,17 +90,17 @@ public class SecurityConfiguration {
                         //*****ANIMAL SPECIES*****\\
                         .requestMatchers(HttpMethod.GET, "/api/animalspecies/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/animalspecies").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/animalspecies").hasRole(ADMIN)
-                        .requestMatchers(HttpMethod.PUT, "/api/animalspecies/{id}").hasRole(ADMIN)
-                        .requestMatchers(HttpMethod.DELETE, "/api/animalspecies/{id}").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.POST, "/api/animalspecies").hasAnyRole(ADMIN, USER)
+                        .requestMatchers(HttpMethod.PUT, "/api/animalspecies/{id}").hasAnyRole(ADMIN, USER)
+                        .requestMatchers(HttpMethod.DELETE, "/api/animalspecies/{id}").hasAnyRole(ADMIN, USER)
                         //*****ANIMAL SPECIES*****\\
 
                         //*****ANIMAL *****\\
                         .requestMatchers(HttpMethod.GET, "/api/animal/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/animal").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/animal").hasRole(ADMIN)
-                        .requestMatchers(HttpMethod.PUT, "/api/animal/{id}").hasRole(ADMIN)
-                        .requestMatchers(HttpMethod.DELETE, "/api/animal/{id}").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.POST, "/api/animal").hasAnyRole(ADMIN, USER)
+                        .requestMatchers(HttpMethod.PUT, "/api/animal/{id}").hasAnyRole(ADMIN, USER)
+                        .requestMatchers(HttpMethod.DELETE, "/api/animal/{id}").hasAnyRole(ADMIN, USER)
                         //*****ANIMAL *****\\
 
                         //*****ADOPTER*****\\

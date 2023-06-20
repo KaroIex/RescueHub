@@ -77,7 +77,7 @@ public class UserDetailsImpl implements UserDetails { // used to work with Sprin
 
     public String getRoles() {
         //zwróć liste ról
-        return  authorities.toString();
+        return authorities.toString();
     }
 
     public String getId() {

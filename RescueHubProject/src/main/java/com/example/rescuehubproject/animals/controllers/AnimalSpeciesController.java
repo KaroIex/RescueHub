@@ -2,6 +2,7 @@ package com.example.rescuehubproject.animals.controllers;
 
 import com.example.rescuehubproject.animals.dto.AnimalSpeciesDTO;
 import com.example.rescuehubproject.animals.dto.AnimalSpeciesWithIdDTO;
+import com.example.rescuehubproject.animals.dto.PaginatedResponse;
 import com.example.rescuehubproject.animals.services.AnimalSpeciesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,10 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -42,7 +41,7 @@ public class AnimalSpeciesController {
                             schema = @Schema(implementation = AnimalSpeciesWithIdDTO.class))}),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)})
-    public ResponseEntity<List<AnimalSpeciesWithIdDTO>> findAll(
+    public ResponseEntity<PaginatedResponse<AnimalSpeciesWithIdDTO>> findAll(
             @Parameter(description = "Page number, starting from 0")
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @Parameter(description = "Number of elements per page")
@@ -55,7 +54,14 @@ public class AnimalSpeciesController {
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.Direction.fromString(direction), sortBy);
             Page<AnimalSpeciesWithIdDTO> animalSpeciesWithIdDTOPage = animalSpeciesService.findAll(pageable, filter);
-            return new ResponseEntity<>(animalSpeciesWithIdDTOPage.getContent(), HttpStatus.OK);
+
+            PaginatedResponse<AnimalSpeciesWithIdDTO> response = new PaginatedResponse<>();
+            response.setContent(animalSpeciesWithIdDTOPage.getContent());
+            response.setCurrentPage(animalSpeciesWithIdDTOPage.getNumber());
+            response.setTotalElements(animalSpeciesWithIdDTOPage.getTotalElements());
+            response.setSize(animalSpeciesWithIdDTOPage.getSize());
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -74,7 +80,7 @@ public class AnimalSpeciesController {
         return animalSpeciesDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+
     @PostMapping
     @Operation(summary = "Create a new animal species", description = "Saves a new AnimalSpeciesDTO object")
     @ApiResponses(value = {
